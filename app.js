@@ -215,7 +215,7 @@
      ------------------------------------------------------- */
 
   function cardMarkup(r, index) {
-    const label = `${r.name}，${r.era}。将光标停在立绘上查看人物档案。`;
+    const label = `${r.name}，${r.era}。点击或按回车查看完整人物档案。`;
     return `
       <button
         class="ruler"
@@ -231,6 +231,12 @@
           <span class="ghost-glyph" aria-hidden="true">${r.glyph}</span>
           <span class="figure" aria-hidden="true">
             <img src="${r.image}" alt="" width="832" height="1248" draggable="false" decoding="async" />
+          </span>
+
+          <span class="view-cue" aria-hidden="true">
+            <span class="view-cue-plus">+</span>
+            <span class="view-cue-desktop">点击查看</span>
+            <span class="view-cue-touch">轻触查看</span>
           </span>
 
           <span class="spine" aria-hidden="true">
