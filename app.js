@@ -96,13 +96,12 @@
 
   const rail = document.getElementById("rail");
   const liveRegion = document.getElementById("live-region");
-  const ticks = [...document.querySelectorAll("#ticks span")];
-  const progressLabel = document.getElementById("progress-label");
+
   const body = document.body;
   const main = document.getElementById("reveal");
   const enterButton = document.getElementById("enter-button");
   const prologue = document.getElementById("prologue");
-  const coda = document.getElementById("coda");
+
   const hoverDetail = document.getElementById("hover-detail");
   const hoverName = document.getElementById("hover-detail-name");
   const hoverEra = document.getElementById("hover-detail-era");
@@ -209,24 +208,16 @@
      ------------------------------------------------------- */
 
   function updateProgress() {
-    const count = visited.size;
-    ticks.forEach((tick, index) => {
-      tick.classList.toggle("is-read", index < count);
-    });
+    if (visited.size < RULERS.length) return;
 
-    if (count >= RULERS.length) {
-      const wasComplete = body.classList.contains("all-visited");
-      progressLabel.textContent = "五段到齐 · 一脉相承";
-      body.classList.add("all-visited");
-      if (!wasComplete) {
-        window.dispatchEvent(
-          new CustomEvent("qin:ending:complete", {
-            detail: { visited: [...visited] }
-          })
-        );
-      }
-    } else {
-      progressLabel.textContent = `已看 ${count} / ${RULERS.length} 段自述`;
+    const wasComplete = body.classList.contains("all-visited");
+    body.classList.add("all-visited");
+    if (!wasComplete) {
+      window.dispatchEvent(
+        new CustomEvent("qin:ending:complete", {
+          detail: { visited: [...visited] }
+        })
+      );
     }
   }
 
@@ -380,8 +371,6 @@
     hoverDetail.classList.remove("is-visible");
     hoverDetail.setAttribute("aria-hidden", "true");
     if (hideDetailTimer) window.clearTimeout(hideDetailTimer);
-    ticks.forEach((tick) => tick.classList.remove("is-read"));
-    progressLabel.textContent = "已看 0 / 5 段自述";
     typingToken += 1;
     if (typingTimer) window.clearTimeout(typingTimer);
     document.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
@@ -444,26 +433,6 @@
       fragment.appendChild(mote);
     }
     holder.appendChild(fragment);
-  }
-
-  const codaObserver = "IntersectionObserver" in window
-    ? new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("in-view");
-              codaObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.18 }
-      )
-    : null;
-
-  if (codaObserver) {
-    codaObserver.observe(coda);
-  } else {
-    coda.classList.add("in-view");
   }
 
   makeDust();

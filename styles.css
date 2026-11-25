@@ -1925,6 +1925,81 @@ body.all-visited .coda.in-view .seal {
     display: none;
   }
 }
+/* Full-screen five-portrait ending */
+body.is-revealed {
+  overflow: hidden;
+}
+
+body.is-revealed .masthead {
+  display: none;
+}
+
+.reveal {
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+}
+
+.reveal .gallery-section {
+  display: flex;
+  height: 100%;
+  padding: 0;
+  border: 0;
+}
+
+.reveal .rail-wrap {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.reveal .rail {
+  height: 100dvh;
+  padding: 0;
+  gap: 2px;
+  justify-content: stretch;
+}
+
+.reveal .ruler {
+  height: 100%;
+}
+
+.reveal .figure {
+  height: 100%;
+  bottom: 0;
+}
+
+.reveal .ruler:hover {
+  transform: scaleX(1.05);
+}
+
+.reveal .ruler:focus-visible {
+  transform: scaleX(1.04);
+}
+
+.reveal .ruler:hover .figure {
+  transform: translateX(-50%);
+}
+
+.reveal .spine {
+  padding-bottom: 28px;
+}
+
+@media (max-height: 700px) {
+  .hover-detail {
+    bottom: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .hover-detail-body {
+    min-height: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
