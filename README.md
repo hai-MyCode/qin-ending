@@ -123,6 +123,7 @@ document.querySelector('iframe').contentWindow.QinEnding.reveal();
 - `prefers-reduced-motion: reduce` 下禁用位移、逐字、漂浮尘埃和印章弹跳。
 - 页面无横向溢出；移动端横向滚动只发生在立绘轨道内部。
 - 移动端底部详情面板占卡片下半部，保证姓名、功绩和自述都能读到。
+- 桌面端立绘轨道接近全宽、高度为 58vh；上方标题区压缩，人物在首屏中的占比更大。
 
 ### 性能处理
 
