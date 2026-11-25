@@ -916,7 +916,7 @@ body:not(.is-revealed) .ruler-inner {
 .name {
   color: #f0e2c9;
   font-family: var(--font-kai);
-  font-size: clamp(23px, 2.2vw, 31px);
+  font-size: clamp(26px, 2.5vw, 36px);
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0.17em;
@@ -927,8 +927,8 @@ body:not(.is-revealed) .ruler-inner {
 .epithet {
   color: rgba(207, 192, 164, 0.72);
   font-family: var(--font-serif);
-  font-size: 10px;
-  letter-spacing: 0.24em;
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
 }
 
 .panel {
@@ -1591,7 +1591,7 @@ body.all-visited .coda.in-view .seal {
   }
 
   .name {
-    font-size: 27px;
+    font-size: 30px;
   }
 
   .panel {
@@ -1730,8 +1730,8 @@ body.all-visited .coda.in-view .seal {
   z-index: 35;
   bottom: clamp(16px, 2.6vh, 28px);
   left: 50%;
-  width: min(1180px, calc(100vw - 48px));
-  padding: 20px 30px 18px;
+  width: min(1260px, calc(100vw - 48px));
+  padding: 24px 34px 22px;
   color: var(--paper);
   border: 1px solid rgba(var(--accent-rgb), 0.35);
   background:
@@ -1763,8 +1763,8 @@ body.all-visited .coda.in-view .seal {
 
 .hover-detail-inner {
   display: grid;
-  grid-template-columns: 210px minmax(0, 1fr) 150px;
-  gap: 26px;
+  grid-template-columns: 230px minmax(0, 1fr) 160px;
+  gap: 30px;
   align-items: center;
 }
 
@@ -1773,7 +1773,7 @@ body.all-visited .coda.in-view .seal {
   margin-bottom: 7px;
   color: rgba(var(--accent-rgb), 0.9);
   font-family: var(--font-sans);
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 0.2em;
 }
 
@@ -1781,7 +1781,7 @@ body.all-visited .coda.in-view .seal {
   margin: 0;
   color: #f4e7cf;
   font-family: var(--font-kai);
-  font-size: 31px;
+  font-size: 38px;
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: 0.07em;
@@ -1791,7 +1791,7 @@ body.all-visited .coda.in-view .seal {
   margin: 6px 0 0;
   color: rgba(207, 192, 164, 0.58);
   font-family: var(--font-sans);
-  font-size: 9px;
+  font-size: 10.5px;
   line-height: 1.7;
   letter-spacing: 0.1em;
 }
@@ -1806,7 +1806,7 @@ body.all-visited .coda.in-view .seal {
   margin: 0 0 6px;
   color: rgba(var(--accent-rgb), 0.9);
   font-family: var(--font-sans);
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 0.22em;
 }
 
@@ -1814,7 +1814,7 @@ body.all-visited .coda.in-view .seal {
   margin: 0;
   color: #f3e5cc;
   font-family: var(--font-kai);
-  font-size: 23px;
+  font-size: 27px;
   line-height: 1.4;
   letter-spacing: 0.03em;
 }
@@ -1824,8 +1824,8 @@ body.all-visited .coda.in-view .seal {
   margin: 7px 0 0;
   color: rgba(207, 192, 164, 0.72);
   font-family: var(--font-serif);
-  font-size: 11.5px;
-  line-height: 1.8;
+  font-size: 13.5px;
+  line-height: 1.85;
   letter-spacing: 0.03em;
 }
 
@@ -1842,7 +1842,7 @@ body.all-visited .coda.in-view .seal {
 .hover-detail-meta {
   color: rgba(152, 139, 116, 0.6);
   font-family: var(--font-sans);
-  font-size: 8px;
+  font-size: 9px;
   line-height: 1.7;
   letter-spacing: 0.12em;
   text-align: right;
@@ -1885,12 +1885,12 @@ body.all-visited .coda.in-view .seal {
   }
 
   .hover-detail-name {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .hover-detail-era {
     margin-top: 3px;
-    font-size: 8.5px;
+    font-size: 9.5px;
     line-height: 1.5;
   }
 
@@ -1902,11 +1902,11 @@ body.all-visited .coda.in-view .seal {
 
   .hover-detail-lead {
     margin-bottom: 4px;
-    font-size: 7.5px;
+    font-size: 8px;
   }
 
   .hover-detail-merit {
-    font-size: 18px;
+    font-size: 21px;
     line-height: 1.35;
   }
 
@@ -1915,7 +1915,7 @@ body.all-visited .coda.in-view .seal {
     min-height: 0;
     margin-top: 5px;
     overflow: hidden;
-    font-size: 10.5px;
+    font-size: 11.5px;
     line-height: 1.7;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
