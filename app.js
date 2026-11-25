@@ -178,6 +178,7 @@
   const hoverMerit = document.getElementById("hover-detail-merit");
   const hoverBody = document.getElementById("hover-detail-body");
   const hoverMeta = document.getElementById("hover-detail-meta");
+  const hoverDetailCta = document.getElementById("hover-detail-cta");
 
   const spotlight = document.getElementById("spotlight");
   const spotlightImage = document.getElementById("spotlight-image");
@@ -505,6 +506,10 @@
     });
   });
 
+  hoverDetailCta.addEventListener("click", () => {
+    if (activeIndex >= 0) openSpotlight(activeIndex);
+  });
+
   spotlightClose.addEventListener("click", closeSpotlight);
   spotlightScrim.addEventListener("click", closeSpotlight);
 
@@ -524,7 +529,15 @@
   });
 
   rail.addEventListener("focusout", (event) => {
-    if (!rail.contains(event.relatedTarget)) scheduleHideDetail();
+    if (!rail.contains(event.relatedTarget) && !hoverDetail.contains(event.relatedTarget)) {
+      scheduleHideDetail();
+    }
+  });
+
+  hoverDetail.addEventListener("focusout", (event) => {
+    if (!hoverDetail.contains(event.relatedTarget) && !rail.contains(event.relatedTarget)) {
+      scheduleHideDetail();
+    }
   });
 
   hoverDetail.addEventListener("pointerenter", () => {

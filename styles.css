@@ -1,4 +1,4 @@
-﻿/* =========================================================
+/* =========================================================
    秦 · 终章 — “你，不止一个人”
    A single-page closing interaction for a history course.
    ========================================================= */
@@ -1862,6 +1862,42 @@ body.all-visited .coda.in-view .seal {
   letter-spacing: 0.03em;
 }
 
+.hover-detail-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: 10px;
+  padding: 6px 10px;
+  color: rgba(244, 231, 207, 0.86);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--accent-rgb), 0.07);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.hover-detail-cta span {
+  color: var(--accent);
+  font-size: 15px;
+  line-height: 0.7;
+}
+
+.hover-detail-cta:hover,
+.hover-detail-cta:focus-visible {
+  color: var(--ink);
+  border-color: var(--accent);
+  background: var(--accent);
+  outline: none;
+}
+
+.hover-detail-cta:hover span,
+.hover-detail-cta:focus-visible span {
+  color: var(--ink);
+}
+
 .hover-detail-end {
   display: flex;
   flex-direction: column;
@@ -1956,6 +1992,12 @@ body.all-visited .coda.in-view .seal {
 
   .hover-detail-end {
     display: none;
+  }
+
+  .hover-detail-cta {
+    margin-top: 8px;
+    padding: 5px 8px;
+    font-size: 9.5px;
   }
 }
 /* Full-screen five-portrait ending */
