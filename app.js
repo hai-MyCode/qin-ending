@@ -103,15 +103,26 @@
   const enterButton = document.getElementById("enter-button");
   const prologue = document.getElementById("prologue");
   const coda = document.getElementById("coda");
+  const masthead = document.querySelector(".masthead");
+  const spotlight = document.getElementById("spotlight");
+  const spotlightPanel = document.getElementById("spotlight-panel");
+  const spotlightImage = document.getElementById("spotlight-image");
+  const spotlightName = document.getElementById("spotlight-name");
+  const spotlightEra = document.getElementById("spotlight-era");
+  const spotlightMerit = document.getElementById("spotlight-merit");
+  const spotlightBody = document.getElementById("spotlight-body");
+  const spotlightDescription = document.getElementById("spotlight-description");
+  const spotlightMeta = document.getElementById("spotlight-meta");
+  const spotlightClose = document.getElementById("spotlight-close");
+  const spotlightScrim = document.getElementById("spotlight-scrim");
 
   let activeIndex = -1;
   let typingTimer = null;
   let typingToken = 0;
   let revealTimer = null;
-  let autoActivateTimer = null;
+  let spotlightHideTimer = null;
+  let lastFocused = null;
   let hasRevealed = false;
-  let hoverIntentTimer = null;
-  let hoverIntentIndex = -1;
   const visited = new Set();
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -126,14 +137,15 @@
      ------------------------------------------------------- */
 
   function cardMarkup(r, index) {
-    const label = `${r.name}，${r.era}，${r.years}。${r.full}`;
+    const label = `展开${r.name}的人物档案，${r.era}。`;
     return `
       <button
         class="ruler"
         type="button"
         data-index="${index}"
         aria-label="${label}"
-        aria-pressed="false"
+        aria-haspopup="dialog"
+        aria-controls="spotlight"
         style="--accent:${r.accent};--accent-rgb:${r.accentRgb};--i:${index}"
       >
         <span class="ruler-inner">
@@ -143,24 +155,15 @@
             <img src="${r.image}" alt="" width="832" height="1248" draggable="false" decoding="async" />
           </span>
 
+          <span class="card-action" aria-hidden="true">
+            <span class="card-action-plus">+</span>
+            <span>展开</span>
+          </span>
+
           <span class="spine" aria-hidden="true">
             <span class="ordinal">${r.ordinal}</span>
             <span class="name">${r.name}</span>
             <span class="epithet">${r.epithet}</span>
-          </span>
-
-          <span class="panel" aria-hidden="true">
-            <span class="panel-head">
-              <span class="panel-name">${r.name}</span>
-              <span class="panel-era">${r.era}<br />${r.years}</span>
-              <span class="panel-rule"></span>
-            </span>
-            <span class="quote">
-              <span class="quote-lead">我做的是——</span>
-              <span class="quote-lines">${r.merit.join("<br />")}</span>
-              <span class="quote-body"><span class="quote-text"></span></span>
-              <span class="quote-meta"><i></i><span>${r.meta}</span></span>
-            </span>
           </span>
         </span>
       </button>`;
@@ -173,8 +176,7 @@
      Typewriter
      ------------------------------------------------------- */
 
-  function typeBody(card, text) {
-    const target = card.querySelector(".quote-text");
+  function typeInto(target, text) {
     if (!target) return;
 
     typingToken += 1;
@@ -183,7 +185,7 @@
       window.clearTimeout(typingTimer);
       typingTimer = null;
     }
-    rail.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
+    document.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
 
     if (reducedMotion.matches || !text) {
       target.textContent = text;
@@ -238,31 +240,56 @@
         );
       }
     } else {
-      progressLabel.textContent = `已听 ${count} / ${RULERS.length} 段自述`;
+      progressLabel.textContent = `已看 ${count} / ${RULERS.length} 段自述`;
     }
   }
 
-  function activateRuler(index, { announce = true, scroll = true } = {}) {
+  function setSpotlightContent(ruler) {
+    spotlight.style.setProperty("--accent", ruler.accent);
+    spotlight.style.setProperty("--accent-rgb", ruler.accentRgb);
+    spotlightName.textContent = ruler.name;
+    spotlightEra.textContent = `${ruler.era} · ${ruler.years}`;
+    spotlightMerit.innerHTML = ruler.merit.join("<br />");
+    spotlightMeta.textContent = ruler.meta;
+    spotlightDescription.textContent = `${ruler.era}，${ruler.years}。${ruler.full}`;
+    spotlightImage.src = ruler.image;
+    typeInto(spotlightBody, ruler.body);
+  }
+
+  function openSpotlight(index, { announce = true } = {}) {
     const next = Number(index);
     if (!Number.isInteger(next) || next < 0 || next >= cards.length) return;
-    if (next === activeIndex) return;
 
-    if (hoverIntentTimer) {
-      window.clearTimeout(hoverIntentTimer);
-      hoverIntentTimer = null;
+    if (spotlightHideTimer) {
+      window.clearTimeout(spotlightHideTimer);
+      spotlightHideTimer = null;
     }
-    activeIndex = next;
-    const card = cards[next];
+
     const ruler = RULERS[next];
+    const alreadyOpen = spotlight.classList.contains("is-open");
 
-    cards.forEach((item, itemIndex) => {
-      const isActive = itemIndex === next;
-      item.classList.toggle("is-active", isActive);
-      item.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
+    lastFocused = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : cards[next];
+    activeIndex = next;
+    setSpotlightContent(ruler);
 
-    rail.classList.add("has-active");
-    typeBody(card, ruler.body);
+    body.classList.add("spotlight-open");
+    main.inert = true;
+    masthead.inert = true;
+    spotlight.inert = false;
+    spotlight.removeAttribute("inert");
+    spotlight.setAttribute("aria-hidden", "false");
+
+    if (!alreadyOpen) {
+      void spotlight.offsetWidth;
+      window.requestAnimationFrame(() => {
+        spotlight.classList.add("is-open");
+        window.setTimeout(() => {
+          spotlightClose.focus({ preventScroll: true });
+        }, 60);
+      });
+    }
 
     if (!visited.has(ruler.id)) {
       visited.add(ruler.id);
@@ -278,88 +305,69 @@
         detail: { index: next, id: ruler.id, name: ruler.name }
       })
     );
-
-    if (
-      scroll &&
-      rail.scrollWidth > rail.clientWidth + 8 &&
-      window.matchMedia("(max-width: 980px)").matches
-    ) {
-      const left = card.offsetLeft - (rail.clientWidth - card.offsetWidth) / 2;
-      rail.scrollTo({ left: Math.max(0, left), behavior: reducedMotion.matches ? "auto" : "smooth" });
-    }
   }
 
-  function clearHoverIntent() {
-    if (hoverIntentTimer) {
-      window.clearTimeout(hoverIntentTimer);
-      hoverIntentTimer = null;
+  function closeSpotlight({ restoreFocus = true } = {}) {
+    if (!spotlight.classList.contains("is-open")) return;
+
+    const closingIndex = activeIndex;
+    spotlight.classList.remove("is-open");
+    spotlight.setAttribute("aria-hidden", "true");
+    body.classList.remove("spotlight-open");
+    main.inert = false;
+    masthead.inert = false;
+    activeIndex = -1;
+
+    typingToken += 1;
+    if (typingTimer) {
+      window.clearTimeout(typingTimer);
+      typingTimer = null;
     }
-    hoverIntentIndex = -1;
+    document.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
+
+    const restoreTarget = cards[closingIndex] || lastFocused;
+    if (restoreFocus && restoreTarget && restoreTarget.focus) {
+      restoreTarget.focus({ preventScroll: true });
+    }
+
+    spotlightHideTimer = window.setTimeout(() => {
+      if (!spotlight.classList.contains("is-open")) {
+        spotlight.inert = true;
+        spotlight.setAttribute("inert", "");
+      }
+    }, reducedMotion.matches ? 0 : 360);
   }
-
-  // Use a short hover intent + hit-test check instead of raw pointerenter.
-  // This prevents a card shifting underneath the cursor from immediately
-  // triggering a second card and producing a back-and-forth wobble.
-  rail.addEventListener("pointermove", (event) => {
-    if (event.pointerType === "touch") return;
-
-    const card = event.target.closest?.(".ruler");
-
-    if (!card) {
-      clearHoverIntent();
-      return;
-    }
-
-    const index = Number(card.dataset.index);
-    if (index === activeIndex) {
-      clearHoverIntent();
-      return;
-    }
-
-    if (reducedMotion.matches) {
-      activateRuler(index, { scroll: false });
-      return;
-    }
-
-    // Keep one intent window per target. Flex animation changes card bounds;
-    // re-hit-testing the stationary pointer would otherwise chase those bounds.
-    if (hoverIntentTimer && hoverIntentIndex === index) return;
-    clearHoverIntent();
-    hoverIntentIndex = index;
-
-    hoverIntentTimer = window.setTimeout(() => {
-      hoverIntentTimer = null;
-      hoverIntentIndex = -1;
-      activateRuler(index, { scroll: false });
-    }, 70);
-  });
-
-  rail.addEventListener("pointerleave", clearHoverIntent);
 
   cards.forEach((card, index) => {
-    card.addEventListener("focus", () => {
-      activateRuler(index, { scroll: false });
-    });
-
     card.addEventListener("click", () => {
-      activateRuler(index);
+      openSpotlight(index);
     });
   });
 
-  // Arrow-key navigation between the five portraits.
+  // Arrow keys move focus between cards; Enter / Space opens the dialog.
   rail.addEventListener("keydown", (event) => {
     const keys = ["ArrowLeft", "ArrowRight", "Home", "End"];
     if (!keys.includes(event.key)) return;
     event.preventDefault();
 
-    let target = activeIndex;
-    if (event.key === "ArrowLeft") target = (activeIndex - 1 + cards.length) % cards.length;
-    if (event.key === "ArrowRight") target = (activeIndex + 1) % cards.length;
+    const current = cards.indexOf(document.activeElement);
+    const base = current >= 0 ? current : 0;
+    let target = base;
+    if (event.key === "ArrowLeft") target = (base - 1 + cards.length) % cards.length;
+    if (event.key === "ArrowRight") target = (base + 1) % cards.length;
     if (event.key === "Home") target = 0;
     if (event.key === "End") target = cards.length - 1;
 
-    activateRuler(target, { scroll: true });
     cards[target].focus({ preventScroll: true });
+  });
+
+  spotlightClose.addEventListener("click", () => closeSpotlight());
+  spotlightScrim.addEventListener("click", () => closeSpotlight());
+
+  spotlight.addEventListener("keydown", (event) => {
+    if (event.key !== "Tab") return;
+    event.preventDefault();
+    spotlightClose.focus();
   });
 
   /* -------------------------------------------------------
@@ -386,35 +394,28 @@
       const title = document.getElementById("thesis-title");
       window.setTimeout(() => title.focus({ preventScroll: true }), 500);
     }
-
-    const delay = instant || reducedMotion.matches ? 320 : 1250;
-    autoActivateTimer = window.setTimeout(() => {
-      if (activeIndex === -1) activateRuler(0, { announce: false });
-    }, delay);
   }
 
   function resetPage() {
     hasRevealed = false;
     activeIndex = -1;
     visited.clear();
-    body.classList.remove("is-revealed", "all-visited");
+    body.classList.remove("is-revealed", "all-visited", "spotlight-open");
     main.setAttribute("aria-hidden", "true");
+    main.inert = false;
+    masthead.inert = false;
     prologue.removeAttribute("aria-hidden");
     prologue.inert = false;
-    cards.forEach((card) => {
-      card.classList.remove("is-active");
-      card.setAttribute("aria-pressed", "false");
-      const target = card.querySelector(".quote-text");
-      if (target) target.textContent = "";
-      card.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
-    });
-    rail.classList.remove("has-active");
+    spotlight.classList.remove("is-open");
+    spotlight.setAttribute("aria-hidden", "true");
+    spotlight.inert = true;
+    spotlight.setAttribute("inert", "");
+    if (spotlightHideTimer) window.clearTimeout(spotlightHideTimer);
     ticks.forEach((tick) => tick.classList.remove("is-read"));
-    progressLabel.textContent = "已听 0 / 5 段自述";
+    progressLabel.textContent = "已看 0 / 5 段自述";
     typingToken += 1;
     if (typingTimer) window.clearTimeout(typingTimer);
-    if (autoActivateTimer) window.clearTimeout(autoActivateTimer);
-    clearHoverIntent();
+    document.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
     window.scrollTo({ top: 0, behavior: "auto" });
     scheduleAutoReveal();
   }
@@ -432,7 +433,9 @@
   window.QinEnding = {
     reveal: (options = {}) => revealPage(options),
     reset: resetPage,
-    activate: (index) => activateRuler(index),
+    activate: (index) => openSpotlight(index),
+    open: (index) => openSpotlight(index),
+    close: () => closeSpotlight(),
     get activeIndex() { return activeIndex; },
     get visited() { return [...visited]; },
     rulers: RULERS.map(({ id, name }) => ({ id, name }))
@@ -441,7 +444,10 @@
   window.addEventListener("qin:ending:reveal", () => revealPage());
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !hasRevealed) {
+    if (event.key !== "Escape") return;
+    if (spotlight.classList.contains("is-open")) {
+      closeSpotlight();
+    } else if (!hasRevealed) {
       revealPage({ focus: true });
     }
   });

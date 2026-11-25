@@ -1680,6 +1680,368 @@ body.all-visited .coda.in-view .seal {
   }
 }
 
+/* ---------------------------------------------------------
+   Click-to-spotlight interaction
+   --------------------------------------------------------- */
+
+.ruler {
+  transition:
+    transform 0.42s var(--ease-out),
+    opacity 0.35s ease,
+    border-color 0.4s ease;
+}
+
+.card-action {
+  position: absolute;
+  z-index: 5;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 9px;
+  color: rgba(var(--accent-rgb), 0.9);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  background: rgba(12, 10, 7, 0.55);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.35s ease, border-color 0.35s ease;
+}
+
+.card-action-plus {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 0.7;
+}
+
+.ruler:hover .card-action,
+.ruler:focus-visible .card-action {
+  opacity: 1;
+  border-color: rgba(var(--accent-rgb), 0.5);
+}
+
+@media (hover: hover) {
+  .rail:has(.ruler:hover) .ruler:not(:hover) {
+    opacity: 0.56;
+  }
+
+  .ruler:hover {
+    z-index: 5;
+    border-color: rgba(var(--accent-rgb), 0.55);
+    transform: translateY(-8px) scale(1.015);
+  }
+
+  .ruler:hover .figure {
+    transform: translateX(-50%) scale(1.025);
+  }
+
+  .ruler:hover .ruler-aura {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  .ruler:hover .ghost-glyph {
+    color: rgba(var(--accent-rgb), 0.07);
+    transform: translateX(-50%) translateY(6px);
+  }
+}
+
+body.spotlight-open {
+  overflow: hidden;
+}
+
+.spotlight {
+  --accent: #c89a5c;
+  --accent-rgb: 200, 154, 92;
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 56px);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease, visibility 0.28s;
+}
+
+.spotlight.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.spotlight-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(55% 48% at 50% 45%, rgba(90, 61, 32, 0.18), transparent 70%),
+    rgba(5, 4, 3, 0.84);
+}
+
+.spotlight-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 46% 54%;
+  width: min(1160px, 100%);
+  height: min(660px, calc(100dvh - 80px));
+  max-height: calc(100dvh - 32px);
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.48);
+  background: linear-gradient(135deg, #1a1610, #0b0907 72%);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.58);
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  transition: opacity 0.32s ease, transform 0.48s var(--ease-out);
+}
+
+.spotlight.is-open .spotlight-panel {
+  opacity: 1;
+  transform: none;
+}
+
+.spotlight-panel::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: radial-gradient(62% 72% at 24% 66%, rgba(var(--accent-rgb), 0.16), transparent 68%);
+  pointer-events: none;
+}
+
+.spotlight-panel::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  inset: 12px;
+  border: 1px solid rgba(var(--accent-rgb), 0.14);
+  pointer-events: none;
+}
+
+.spotlight-close {
+  position: absolute;
+  z-index: 7;
+  top: 22px;
+  right: 22px;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  padding: 0;
+  color: var(--paper-soft);
+  border: 1px solid rgba(var(--accent-rgb), 0.34);
+  border-radius: 50%;
+  background: rgba(11, 9, 7, 0.72);
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.spotlight-close span {
+  position: relative;
+  display: block;
+  width: 15px;
+  height: 15px;
+}
+
+.spotlight-close span::before,
+.spotlight-close span::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 15px;
+  height: 1px;
+  background: currentColor;
+}
+
+.spotlight-close span::before {
+  transform: rotate(45deg);
+}
+
+.spotlight-close span::after {
+  transform: rotate(-45deg);
+}
+
+.spotlight-close:hover,
+.spotlight-close:focus-visible {
+  color: var(--ink);
+  border-color: var(--accent);
+  background: var(--accent);
+  outline: none;
+}
+
+.spotlight-figure {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.spotlight-figure::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 24%;
+  background: linear-gradient(180deg, transparent, rgba(11, 9, 7, 0.72));
+  pointer-events: none;
+}
+
+.spotlight-figure img {
+  display: block;
+  width: auto;
+  max-width: 116%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
+}
+
+.spotlight-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(36px, 4vw, 62px) clamp(28px, 4vw, 64px);
+  background: linear-gradient(90deg, rgba(12, 10, 8, 0) 0%, rgba(12, 10, 8, 0.7) 12%, rgba(12, 10, 8, 0.94) 48%, #0b0907 100%);
+}
+
+.spotlight-kicker {
+  margin: 0 0 18px;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+}
+
+.spotlight-name {
+  margin: 0;
+  color: #f4e7cf;
+  font-family: var(--font-kai);
+  font-size: clamp(38px, 3.8vw, 54px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: 0.08em;
+}
+
+.spotlight-era {
+  margin: 11px 0 0;
+  color: rgba(var(--accent-rgb), 0.9);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  line-height: 1.8;
+  letter-spacing: 0.14em;
+}
+
+.spotlight-rule {
+  display: block;
+  width: 42px;
+  height: 1px;
+  margin: 24px 0 20px;
+  background: rgba(var(--accent-rgb), 0.45);
+}
+
+.spotlight-lead {
+  margin: 0 0 12px;
+  color: rgba(var(--accent-rgb), 0.92);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+}
+
+.spotlight-merit {
+  margin: 0;
+  color: #f4e7ce;
+  font-family: var(--font-kai);
+  font-size: clamp(22px, 2.1vw, 30px);
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+}
+
+.spotlight-body {
+  min-height: 5.6em;
+  margin: 18px 0 0;
+  color: rgba(207, 192, 164, 0.8);
+  font-family: var(--font-serif);
+  font-size: 13px;
+  line-height: 2;
+  letter-spacing: 0.04em;
+}
+
+.spotlight-meta {
+  margin: 18px 0 0;
+  color: rgba(152, 139, 116, 0.65);
+  font-family: var(--font-sans);
+  font-size: 8px;
+  letter-spacing: 0.16em;
+}
+
+@media (max-width: 760px) {
+  .spotlight {
+    padding: 0;
+  }
+
+  .spotlight-panel {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(220px, 42%) 1fr;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
+    overflow-y: auto;
+  }
+
+  .spotlight-panel::after {
+    inset: 8px;
+  }
+
+  .spotlight-figure img {
+    max-width: 100%;
+  }
+
+  .spotlight-copy {
+    justify-content: flex-start;
+    padding: 26px 22px 34px;
+    background: linear-gradient(180deg, rgba(11, 9, 7, 0) 0%, #0b0907 10%);
+    overflow-y: auto;
+  }
+
+  .spotlight-close {
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .spotlight-name {
+    font-size: 34px;
+  }
+
+  .spotlight-merit {
+    font-size: 21px;
+  }
+
+  .spotlight-body {
+    min-height: 0;
+    font-size: 12.5px;
+    line-height: 1.9;
+  }
+
+  .spotlight-rule {
+    margin: 18px 0 16px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
