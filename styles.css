@@ -757,8 +757,10 @@ body.is-revealed .thesis-mark {
   z-index: 7;
   inset: 0;
   border: 1px solid transparent;
+  background: radial-gradient(88% 82% at 50% 34%, rgba(5, 4, 3, 0.18) 0%, rgba(5, 4, 3, 0.82) 100%);
+  opacity: 0;
   pointer-events: none;
-  transition: border-color 0.6s ease;
+  transition: border-color 0.5s ease, opacity 0.4s ease;
 }
 
 .ruler.is-active {
@@ -1693,7 +1695,17 @@ body.all-visited .coda.in-view .seal {
 
 .rail:has(.ruler:hover) .ruler:not(:hover),
 .rail:has(.ruler.is-current) .ruler:not(.is-current) {
-  opacity: 0.56;
+  opacity: 0.68;
+}
+
+.rail:has(.ruler:hover) .ruler:not(:hover)::after,
+.rail:has(.ruler.is-current) .ruler:not(.is-current)::after {
+  opacity: 0.62;
+}
+
+.ruler.is-current::after,
+.ruler:hover::after {
+  opacity: 0;
 }
 
 .ruler.is-current {
