@@ -1,0 +1,15 @@
+# Local browser / QA artifacts
+.chrome-profile/
+.live-chrome/
+live-frames/
+_*.mjs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
