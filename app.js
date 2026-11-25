@@ -15,19 +15,25 @@
       image: "assets/portrait-feizi.webp",
       era: "西周 · 周孝王时",
       years: "约前 890 年受封",
-      epithet: "得封于秦",
+      epithet: "受封于秦",
       glyph: "封",
-      role: "周附庸 · 秦邑之主",
-      merit: ["为周王养马", "得封于秦"],
-      body: "汧渭之间，马群蕃息。周孝王赐我秦邑，秦人从此有了第一块自己的土地。",
-      intro: "秦人早期只是周王室西陲的一支附庸。非子因善养马被周孝王召去主马，秦邑之封让这个族群第一次有了正式的名字与土地。",
+      role: "周王室的养马人 · 秦国起点",
+      merit: ["为周王养马", "受封于秦"],
+      body: "我在汧水、渭水之间为周王养马，马群越来越兴旺。周孝王把秦邑封给我，秦人终于有了第一块自己的土地。",
+      intro: "秦人最早只是西周西部的一支小部族。非子很会养马，周孝王让他负责养马，后来把秦邑封给他。秦人从此有了自己的第一块地盘。",
       facts: [
-        { label: "受封", text: "周孝王召非子主马于汧、渭之间，马大蕃息，封为附庸，邑之秦。" },
-        { label: "地理", text: "秦邑约在今甘肃清水、张家川一带，是秦人第一块正式封地。" },
-        { label: "身份", text: "非子还不是诸侯，秦此时只是周王室的附庸。" }
+        { label: "养马", text: "在汧水、渭水一带替周孝王养马，马群繁殖得很快。" },
+        { label: "受封", text: "周孝王封他做附庸，把秦邑赐给他，让他延续嬴姓的祭祀。" },
+        { label: "建邑", text: "秦邑大约在今甘肃清水、张家川一带，秦人第一次有了正式封地。" },
+        { label: "身份", text: "这时秦国还只是周王室的附庸，不是诸侯；但“秦”作为封邑从此出现。" }
       ],
-      quote: { text: "邑之秦，使复续嬴氏祀，号曰秦嬴。", source: "《史记·秦本纪》" },
-      full: "我在汧渭之间为周孝王养马，马群蕃息。周孝王封我于秦，秦人从此有了第一块属于自己的土地。",
+      takeaway: "秦国不是一开始就强大，它从一块养马换来的封地起步。",
+      full: "我在汧水、渭水之间为周王养马，马群越来越兴旺。周孝王封我于秦，秦人从此有了第一块属于自己的土地。",
+      story: [
+        "我在汧水、渭水之间为周王养马，马群越来越兴旺。周孝王把秦邑封给我，秦人终于有了第一块自己的土地。",
+        "我原本只是周王室西边一支小部族的首领，因为会养马，被周孝王看中。他让我负责王室的马政，马群繁殖得很快，我也因此得到了封地。",
+        "周孝王封我做附庸，把秦邑赐给我，让我延续嬴姓的祭祀。秦邑大约在今甘肃清水、张家川一带。那时我还不是诸侯，但“秦”这个封邑，从此成了我们一族的名字。"
+      ],
       meta: "秦国的第一块土地",
       accent: "#a3ae79",
       accentRgb: "163, 174, 121",
@@ -42,17 +48,23 @@
       years: "护送平王东迁",
       epithet: "列为诸侯",
       glyph: "侯",
-      role: "秦国始封诸侯",
+      role: "秦国第一位诸侯",
       merit: ["护送平王东迁", "秦国始列诸侯"],
-      body: "犬戎之乱，我率兵救周。平王东迁，赐我岐西之地。秦国自此与中原诸侯并列。",
-      intro: "犬戎攻破镐京、周幽王被杀后，襄公率兵救周，又护送周平王东迁。平王赐岐以西之地，秦由此从附庸变成诸侯。",
+      body: "犬戎作乱，我带兵救周，又护送平王东迁。平王把岐山以西的土地封给我，秦国从此与中原诸侯平起平坐。",
+      intro: "周幽王被犬戎杀死后，襄公带兵救周，又护送周平王迁都洛邑。平王封他为诸侯，把岐山以西的土地赐给秦国。秦国从此正式立国。",
       facts: [
-        { label: "救周", text: "犬戎之乱，襄公将兵救周，战甚力，有功。" },
-        { label: "东迁", text: "周平王东徙洛邑，襄公以兵护送。" },
-        { label: "始国", text: "平王封襄公为诸侯，赐岐以西之地；秦始与诸侯通使聘享。" }
+        { label: "救周", text: "犬戎攻破镐京、杀死周幽王，襄公带兵救周，作战有功。" },
+        { label: "护驾", text: "周平王把都城迁到洛邑，襄公领兵一路护送。" },
+        { label: "封侯", text: "平王封襄公为诸侯，赐岐山以西的土地，秦国正式立国。" },
+        { label: "伐戎", text: "前766年，襄公继续讨伐戎人，推进到岐山，同年去世。" }
       ],
-      quote: { text: "襄公于是始国，与诸侯通使聘享之礼。", source: "《史记·秦本纪》" },
-      full: "犬戎之乱，我率兵救周；又护送周平王东迁。平王赐我岐西之地，秦国自此与中原诸侯并列。",
+      takeaway: "秦国的诸侯身份，是襄公靠救周、护驾换来的。",
+      full: "犬戎作乱，我带兵救周；又护送周平王东迁。平王把岐山以西的土地封给我，秦国从此与中原诸侯并列。",
+      story: [
+        "犬戎作乱，我带兵救周，又护送平王东迁。平王把岐山以西的土地封给我，秦国从此与中原诸侯平起平坐。",
+        "周幽王被犬戎杀死后，镐京陷落。我带着秦军赶来救援周王室，又领兵护送周平王把都城迁到洛邑。",
+        "平王封我为诸侯，把岐山以西的土地赐给秦国。秦国从此正式立国，可以和中原诸侯通使往来。后来我继续讨伐戎人，推进到岐山，在前766年去世。"
+      ],
       meta: "从附庸到诸侯",
       accent: "#c98556",
       accentRgb: "201, 133, 86",
@@ -64,20 +76,26 @@
       roman: "QIN MU GONG",
       image: "assets/portrait-mu.webp",
       era: "春秋 · 前 659—前 621",
-      years: "灭国十二，开地千里",
+      years: "吞并十二部族 · 拓地千里",
       epithet: "称霸西戎",
       glyph: "霸",
-      role: "西戎霸主 · 春秋五霸之一",
-      merit: ["纳百里奚、蹇叔", "灭国十二，称霸西戎"],
-      body: "我纳贤才、修国政，东与强晋争衡，西霸戎狄。秦国第一次强得让中原侧目。",
-      intro: "穆公任用百里奚、蹇叔、由余，东与晋争衡，西向戎狄开地，秦国第一次成为让中原侧目的强国。",
+      role: "春秋五霸之一 · 让秦国变强",
+      merit: ["重用百里奚、蹇叔", "吞并十二部族，称霸西戎"],
+      body: "我重用百里奚、蹇叔等人才，东边与晋国较量，西边征服戎狄。秦国第一次强到让中原诸侯不敢轻视。",
+      intro: "穆公重用百里奚、蹇叔、由余等外来人才，一边与晋国较量，一边向西扩张。秦国第一次成为中原不敢小看的强国。",
       facts: [
-        { label: "纳贤", text: "以百里奚为五羖大夫，迎蹇叔，任用由余。" },
-        { label: "韩原", text: "前645年，秦、晋战于韩原，秦俘晋惠公，后又归之。" },
-        { label: "霸西戎", text: "前623年，用由余谋伐戎王，益国十二，开地千里。" }
+        { label: "纳贤", text: "重用百里奚、蹇叔，又采纳由余的建议，整顿内政、训练军队。" },
+        { label: "败晋", text: "前645年，秦军在韩原击败晋军，俘获晋惠公，后来又释放他。" },
+        { label: "扶晋", text: "晋公子重耳流亡时得到秦国帮助，回国成为晋文公；秦晋一度结盟联姻。" },
+        { label: "霸西戎", text: "前623年，秦军大败西戎，吞并十二个部族，拓地千里，周天子派人祝贺。" }
       ],
-      quote: { text: "益国十二，开地千里，遂霸西戎。", source: "《史记·秦本纪》" },
-      full: "我用百里奚、蹇叔，纳贤才、修国政；东与强晋争衡，西霸戎狄，灭国十二，开地千里。秦国第一次让中原侧目。",
+      takeaway: "秦穆公靠“用对人”和“向西发展”，把秦国带进了强国行列。",
+      full: "我重用百里奚、蹇叔等人才，东边与晋国较量，西边征服戎狄。秦国第一次强到让中原诸侯不敢轻视。",
+      story: [
+        "我重用百里奚、蹇叔等人才，东边与晋国较量，西边征服戎狄。秦国第一次强到让中原诸侯不敢轻视。",
+        "我请来百里奚、蹇叔，又采纳由余的建议，整顿内政、训练军队。前645年，秦军在韩原打败晋军，俘获晋惠公；后来我把他放回去，秦晋关系缓和下来。",
+        "晋公子重耳流亡时，我帮助他回国即位，就是后来的晋文公。前623年，秦军大败西戎，吞并十二个部族，拓地千里，周天子也派人来祝贺。秦国从此成了西方最强的国家之一。"
+      ],
       meta: "秦国的第一次霸业",
       accent: "#d6ad6c",
       accentRgb: "214, 173, 108",
@@ -92,17 +110,23 @@
       years: "令狐、河曲之战",
       epithet: "与晋争锋",
       glyph: "峙",
-      role: "穆公之子 · 守成之君",
-      merit: ["继穆公之业", "与晋争锋，不退西土"],
-      body: "令狐、河曲，我与晋国反复交锋。胜负之外，秦国始终钉在西土，没有退出这盘棋。",
-      intro: "康公即位时，秦已是西土强国，但东出之路被晋国挡住。他在令狐、河曲与晋反复交锋，未能东进，却守住了穆公留下的基业。",
+      role: "穆公之子 · 守住秦国",
+      merit: ["继穆公之业", "与晋争锋，守住西土"],
+      body: "令狐、河曲，我和晋国反复交手。有输有赢，但秦国始终守在西边，没有退出这场较量。",
+      intro: "康公接班时，秦国已经是西方强国，但向东的路被晋国挡住。他多次和晋国交战，没能大举东进，却守住了父亲留下的家底。",
       facts: [
-        { label: "令狐", text: "前620年，秦送公子雍入晋，赵盾拒之，秦师败于令狐。" },
-        { label: "河曲", text: "前615年，秦伐晋，取羁马，战于河曲，大败晋军。" },
-        { label: "用人", text: "晋大夫随会奔秦，康公留用；后晋人设计迎回随会。" }
+        { label: "令狐", text: "前620年，秦国送晋国公子雍回国争位，在令狐遭晋军拦截，秦军战败。" },
+        { label: "河曲", text: "前615年，秦军攻晋，夺取羁马，又在河曲大败晋军。" },
+        { label: "拉锯", text: "康公时期秦晋多次交战，秦国没能东进，但晋国也无法彻底压服秦国。" },
+        { label: "守成", text: "他维持了穆公留下的军政基础，秦国继续稳在西土。" }
       ],
-      quote: { text: "六年，秦伐晋，取羁马，战于河曲，大败晋军。", source: "《史记·秦本纪》" },
-      full: "我继穆公之业，与晋国战于令狐、河曲。胜负之外，秦国始终钉在西土，没有退出这盘棋。",
+      takeaway: "康公没有开疆拓土，但他在秦晋拉锯中守住了秦国，没有掉队。",
+      full: "我继穆公之业，与晋国战于令狐、河曲。有输有赢，但秦国始终守在西边，没有退出这场较量。",
+      story: [
+        "令狐、河曲，我和晋国反复交手。有输有赢，但秦国始终守在西边，没有退出这场较量。",
+        "前620年，我送晋国公子雍回国争位，在令狐遭到晋军拦截，秦军战败。前615年，我再次出兵攻晋，夺取羁马，又在河曲大败晋军。",
+        "那些年秦国和晋国既联姻又打仗，我没能像父亲那样大举东进，但也没有让秦国在拉锯中垮掉。我守住穆公留下的家底，把秦国稳稳留在西边。"
+      ],
       meta: "守住秦国的位置",
       accent: "#84a4b3",
       accentRgb: "132, 164, 179",
@@ -114,20 +138,26 @@
       roman: "QIN GONG GONG",
       image: "assets/portrait-gong.webp",
       era: "春秋 · 前 608—前 604",
-      years: "守国待时 · 年数有异说",
-      epithet: "守国待时",
+      years: "在位很短 · 年数有异说",
+      epithet: "守住秦国",
       glyph: "守",
-      role: "康公之子 · 守成之君",
-      merit: ["在位虽短", "社稷未失，交予后来者"],
-      body: "我在位很短，史书留下的笔墨不多。但我守住了社稷，把秦国交到后来者手中。",
-      intro: "共公在位很短，史料留下的笔墨不多。他即位的第二年，晋国发生赵穿弑晋灵公之乱；秦国没有大举东出，而是守住了西土社稷。",
+      role: "康公之子 · 在位很短的守成君主",
+      merit: ["在位虽短", "国家未失，交予后来者"],
+      body: "我在位很短，史书也没留下多少记载。但我守住了秦国，把它交到下一个君主手里。",
+      intro: "共公在位时间很短，史书对他的记载不多。他即位后，晋国发生内乱，秦国没有大举东进，而是继续守住西边的根基。",
       facts: [
-        { label: "晋乱", text: "共公二年，晋赵穿弑其君灵公。" },
-        { label: "年数", text: "《史记·秦本纪》记共公立五年；《左传》系年可推四年。" },
-        { label: "传承", text: "共公卒，子桓公立；秦国的接力继续。" }
+        { label: "即位", text: "共公是康公之子，约前608年即位，在位时间很短。" },
+        { label: "晋乱", text: "他在位时，晋国权臣赵穿杀死了国君晋灵公，中原局势动荡。" },
+        { label: "守土", text: "秦国没有趁机大举东进，但守住了西边的核心地盘。" },
+        { label: "传位", text: "共公去世后，儿子秦桓公即位，秦国继续往下走。" }
       ],
-      quote: { text: "共公立五年卒，子桓公立。", source: "《史记·秦本纪》" },
-      full: "我在位很短，史书留下的笔墨不多。但我守住了社稷，把秦国交到后来者手中。",
+      takeaway: "秦共公没有留下显赫功业，但他的作用是把国家的接力棒交下去。",
+      full: "我在位很短，史书也没留下多少记载。但我守住了秦国，把它交到下一个君主手里。",
+      story: [
+        "我在位很短，史书也没留下多少记载。但我守住了秦国，把它交到下一个君主手里。",
+        "我是康公的儿子，大约在前608年即位。那时晋国权臣赵穿杀了国君晋灵公，中原很乱；秦国没有趁机大举东进，而是守住了西边的核心地盘。",
+        "我在位只有几年，史书对具体年数也有不同说法。但我把国家完整地交给儿子秦桓公，秦国的接力没有断。"
+      ],
       meta: "把火种交给下一个人",
       accent: "#b9929a",
       accentRgb: "185, 146, 154",
@@ -154,12 +184,7 @@
   const spotlightName = document.getElementById("spotlight-name");
   const spotlightRole = document.getElementById("spotlight-role");
   const spotlightEra = document.getElementById("spotlight-era");
-  const spotlightIntro = document.getElementById("spotlight-intro");
-  const spotlightMerit = document.getElementById("spotlight-merit");
-  const spotlightFacts = document.getElementById("spotlight-facts");
-  const spotlightQuote = document.getElementById("spotlight-quote");
-  const spotlightCite = document.getElementById("spotlight-cite");
-  const spotlightBody = document.getElementById("spotlight-body");
+  const spotlightStory = document.getElementById("spotlight-story");
   const spotlightDescription = document.getElementById("spotlight-description");
   const spotlightMeta = document.getElementById("spotlight-meta");
   const spotlightClose = document.getElementById("spotlight-close");
@@ -397,22 +422,10 @@
     spotlightName.textContent = ruler.name;
     spotlightRole.textContent = ruler.role;
     spotlightEra.textContent = `${ruler.era} · ${ruler.years}`;
-    spotlightIntro.textContent = ruler.intro;
-    spotlightMerit.innerHTML = ruler.merit.join("<br />");
-    spotlightFacts.innerHTML = ruler.facts
-      .map((fact) => `<p><span>${fact.label}</span>${fact.text}</p>`)
-      .join("");
-    spotlightQuote.textContent = `“${ruler.quote.text}”`;
-    spotlightCite.textContent = `—— ${ruler.quote.source}`;
+    spotlightStory.innerHTML = ruler.story.map((paragraph) => `<p>${paragraph}</p>`).join("");
     spotlightMeta.textContent = ruler.meta;
-    spotlightDescription.textContent = [
-      ruler.role,
-      ruler.intro,
-      ...ruler.facts.map((fact) => `${fact.label}：${fact.text}`),
-      `史料：${ruler.quote.text}（${ruler.quote.source}）`
-    ].join(" ");
+    spotlightDescription.textContent = [ruler.role, ...ruler.story].join(" ");
     spotlightImage.src = ruler.image;
-    typeInto(spotlightBody, ruler.body);
   }
 
   function openSpotlight(index) {
