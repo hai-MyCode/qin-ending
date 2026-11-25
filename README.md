@@ -108,7 +108,7 @@ document.querySelector('iframe').contentWindow.QinEnding.reveal();
 
 五张人物图由课程方提供（原始文件为带棋盘格背景的 JPG），页面使用前已做去底、裁切、轻微调色，并转为透明 WebP。相比原来的内联 SVG，人物写实度和课本感更强，同时仍然是本地素材，不依赖 CDN 或外部字体服务。
 
-原始 JPG 保留在 `assets/half-body-historical-portrait-1~5.jpg`，成品为 `assets/portrait-*.webp`。如需换图，替换对应 WebP 并更新 `app.js` 中 `image` 字段即可，卡片结构和交互不用动。人物图的版权与使用范围按课程方提供的授权为准。
+原始 JPG 保留在 `assets/half-body-historical-portrait.jpg`（秦非子）与 `assets/half-body-historical-portrait-2~5.jpg`（其余四位），成品为 `assets/portrait-*.webp`。如需换图，替换对应 WebP 并更新 `app.js` 中 `image` 字段即可，卡片结构和交互不用动。人物图的版权与使用范围按课程方提供的授权为准。
 
 ### 7. “播放”是否等于配音
 
