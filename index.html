@@ -81,7 +81,7 @@
           <p class="gallery-sub">从附庸到诸侯，从西陲到霸业，再到守成。</p>
         </div>
         <p class="gallery-hint">
-          <span class="hint-desktop"><span class="cursor-pulse" aria-hidden="true"></span>点击立绘，展开他的人物档案</span>
+          <span class="hint-desktop"><span class="cursor-pulse" aria-hidden="true"></span>将光标停在立绘上，查看他的人物档案</span>
           <span class="hint-touch"><span class="cursor-pulse" aria-hidden="true"></span>轻触立绘，查看他的功绩 · 可左右滑动</span>
         </p>
       </div>
@@ -126,38 +126,24 @@
     </section>
   </main>
 
-  <div class="spotlight" id="spotlight" aria-hidden="true" inert>
-    <div class="spotlight-scrim" id="spotlight-scrim" aria-hidden="true"></div>
-    <section
-      class="spotlight-panel"
-      id="spotlight-panel"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="spotlight-name"
-      aria-describedby="spotlight-description"
-      tabindex="-1"
-    >
-      <button class="spotlight-close" id="spotlight-close" type="button" aria-label="关闭人物档案">
-        <span aria-hidden="true"></span>
-      </button>
-
-      <div class="spotlight-figure" aria-hidden="true">
-        <img id="spotlight-image" src="" alt="" width="832" height="1248" draggable="false" decoding="async" />
+  <aside class="hover-detail" id="hover-detail" aria-hidden="true">
+    <div class="hover-detail-inner">
+      <div class="hover-detail-id">
+        <span class="hover-detail-kicker">秦国五君 · 人物档案</span>
+        <h2 class="hover-detail-name" id="hover-detail-name"></h2>
+        <p class="hover-detail-era" id="hover-detail-era"></p>
       </div>
-
-      <div class="spotlight-copy">
-        <p class="spotlight-kicker">秦国五君 · 人物档案</p>
-        <h2 class="spotlight-name" id="spotlight-name"></h2>
-        <p class="spotlight-era" id="spotlight-era"></p>
-        <span class="spotlight-rule" aria-hidden="true"></span>
-        <p class="spotlight-lead">我做的是——</p>
-        <p class="spotlight-merit" id="spotlight-merit"></p>
-        <p class="spotlight-body" id="spotlight-body" aria-hidden="true"></p>
-        <p class="sr-only" id="spotlight-description"></p>
-        <p class="spotlight-meta" id="spotlight-meta"></p>
+      <div class="hover-detail-copy">
+        <p class="hover-detail-lead">我做的是——</p>
+        <p class="hover-detail-merit" id="hover-detail-merit"></p>
+        <p class="hover-detail-body" id="hover-detail-body"></p>
       </div>
-    </section>
-  </div>
+      <div class="hover-detail-end">
+        <span class="hover-detail-meta" id="hover-detail-meta"></span>
+        <span class="hover-detail-seal" aria-hidden="true">秦</span>
+      </div>
+    </div>
+  </aside>
 
   <div class="sr-only" id="live-region" aria-live="polite" aria-atomic="true"></div>
 

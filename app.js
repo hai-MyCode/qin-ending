@@ -103,25 +103,18 @@
   const enterButton = document.getElementById("enter-button");
   const prologue = document.getElementById("prologue");
   const coda = document.getElementById("coda");
-  const masthead = document.querySelector(".masthead");
-  const spotlight = document.getElementById("spotlight");
-  const spotlightPanel = document.getElementById("spotlight-panel");
-  const spotlightImage = document.getElementById("spotlight-image");
-  const spotlightName = document.getElementById("spotlight-name");
-  const spotlightEra = document.getElementById("spotlight-era");
-  const spotlightMerit = document.getElementById("spotlight-merit");
-  const spotlightBody = document.getElementById("spotlight-body");
-  const spotlightDescription = document.getElementById("spotlight-description");
-  const spotlightMeta = document.getElementById("spotlight-meta");
-  const spotlightClose = document.getElementById("spotlight-close");
-  const spotlightScrim = document.getElementById("spotlight-scrim");
+  const hoverDetail = document.getElementById("hover-detail");
+  const hoverName = document.getElementById("hover-detail-name");
+  const hoverEra = document.getElementById("hover-detail-era");
+  const hoverMerit = document.getElementById("hover-detail-merit");
+  const hoverBody = document.getElementById("hover-detail-body");
+  const hoverMeta = document.getElementById("hover-detail-meta");
 
   let activeIndex = -1;
   let typingTimer = null;
   let typingToken = 0;
   let revealTimer = null;
-  let spotlightHideTimer = null;
-  let lastFocused = null;
+  let hideDetailTimer = null;
   let hasRevealed = false;
   const visited = new Set();
 
@@ -137,15 +130,13 @@
      ------------------------------------------------------- */
 
   function cardMarkup(r, index) {
-    const label = `展开${r.name}的人物档案，${r.era}。`;
+    const label = `${r.name}，${r.era}。将光标停在立绘上查看人物档案。`;
     return `
       <button
         class="ruler"
         type="button"
         data-index="${index}"
         aria-label="${label}"
-        aria-haspopup="dialog"
-        aria-controls="spotlight"
         style="--accent:${r.accent};--accent-rgb:${r.accentRgb};--i:${index}"
       >
         <span class="ruler-inner">
@@ -153,11 +144,6 @@
           <span class="ghost-glyph" aria-hidden="true">${r.glyph}</span>
           <span class="figure" aria-hidden="true">
             <img src="${r.image}" alt="" width="832" height="1248" draggable="false" decoding="async" />
-          </span>
-
-          <span class="card-action" aria-hidden="true">
-            <span class="card-action-plus">+</span>
-            <span>展开</span>
           </span>
 
           <span class="spine" aria-hidden="true">
@@ -244,61 +230,39 @@
     }
   }
 
-  function setSpotlightContent(ruler) {
-    spotlight.style.setProperty("--accent", ruler.accent);
-    spotlight.style.setProperty("--accent-rgb", ruler.accentRgb);
-    spotlightName.textContent = ruler.name;
-    spotlightEra.textContent = `${ruler.era} · ${ruler.years}`;
-    spotlightMerit.innerHTML = ruler.merit.join("<br />");
-    spotlightMeta.textContent = ruler.meta;
-    spotlightDescription.textContent = `${ruler.era}，${ruler.years}。${ruler.full}`;
-    spotlightImage.src = ruler.image;
-    typeInto(spotlightBody, ruler.body);
+  function setHoverContent(ruler) {
+    hoverDetail.style.setProperty("--accent", ruler.accent);
+    hoverDetail.style.setProperty("--accent-rgb", ruler.accentRgb);
+    hoverName.textContent = ruler.name;
+    hoverEra.innerHTML = `${ruler.era}<br />${ruler.years}`;
+    hoverMerit.innerHTML = ruler.merit.join("<br />");
+    hoverMeta.textContent = ruler.meta;
+    typeInto(hoverBody, ruler.body);
   }
 
-  function openSpotlight(index, { announce = true } = {}) {
+  function showHoverDetail(index) {
     const next = Number(index);
     if (!Number.isInteger(next) || next < 0 || next >= cards.length) return;
 
-    if (spotlightHideTimer) {
-      window.clearTimeout(spotlightHideTimer);
-      spotlightHideTimer = null;
+    if (hideDetailTimer) {
+      window.clearTimeout(hideDetailTimer);
+      hideDetailTimer = null;
     }
+
+    if (next === activeIndex && hoverDetail.classList.contains("is-visible")) return;
 
     const ruler = RULERS[next];
-    const alreadyOpen = spotlight.classList.contains("is-open");
-
-    lastFocused = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : cards[next];
     activeIndex = next;
-    setSpotlightContent(ruler);
-
-    body.classList.add("spotlight-open");
-    main.inert = true;
-    masthead.inert = true;
-    spotlight.inert = false;
-    spotlight.removeAttribute("inert");
-    spotlight.setAttribute("aria-hidden", "false");
-
-    if (!alreadyOpen) {
-      void spotlight.offsetWidth;
-      window.requestAnimationFrame(() => {
-        spotlight.classList.add("is-open");
-        window.setTimeout(() => {
-          spotlightClose.focus({ preventScroll: true });
-        }, 60);
-      });
-    }
+    setHoverContent(ruler);
+    hoverDetail.classList.add("is-visible");
+    hoverDetail.setAttribute("aria-hidden", "false");
 
     if (!visited.has(ruler.id)) {
       visited.add(ruler.id);
       updateProgress();
     }
 
-    if (announce) {
-      liveRegion.textContent = `${ruler.name}。${ruler.full}`;
-    }
+    liveRegion.textContent = `${ruler.name}。${ruler.full}`;
 
     window.dispatchEvent(
       new CustomEvent("qin:ending:ruler", {
@@ -307,16 +271,12 @@
     );
   }
 
-  function closeSpotlight({ restoreFocus = true } = {}) {
-    if (!spotlight.classList.contains("is-open")) return;
+  function hideHoverDetail() {
+    if (activeIndex === -1 && !hoverDetail.classList.contains("is-visible")) return;
 
-    const closingIndex = activeIndex;
-    spotlight.classList.remove("is-open");
-    spotlight.setAttribute("aria-hidden", "true");
-    body.classList.remove("spotlight-open");
-    main.inert = false;
-    masthead.inert = false;
     activeIndex = -1;
+    hoverDetail.classList.remove("is-visible");
+    hoverDetail.setAttribute("aria-hidden", "true");
 
     typingToken += 1;
     if (typingTimer) {
@@ -324,27 +284,49 @@
       typingTimer = null;
     }
     document.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
+  }
 
-    const restoreTarget = cards[closingIndex] || lastFocused;
-    if (restoreFocus && restoreTarget && restoreTarget.focus) {
-      restoreTarget.focus({ preventScroll: true });
-    }
-
-    spotlightHideTimer = window.setTimeout(() => {
-      if (!spotlight.classList.contains("is-open")) {
-        spotlight.inert = true;
-        spotlight.setAttribute("inert", "");
-      }
-    }, reducedMotion.matches ? 0 : 360);
+  function scheduleHideDetail() {
+    if (hideDetailTimer) window.clearTimeout(hideDetailTimer);
+    hideDetailTimer = window.setTimeout(() => {
+      hideDetailTimer = null;
+      hideHoverDetail();
+    }, 90);
   }
 
   cards.forEach((card, index) => {
+    card.addEventListener("pointerenter", (event) => {
+      if (event.pointerType !== "touch") showHoverDetail(index);
+    });
+
     card.addEventListener("click", () => {
-      openSpotlight(index);
+      showHoverDetail(index);
     });
   });
 
-  // Arrow keys move focus between cards; Enter / Space opens the dialog.
+  rail.addEventListener("pointerleave", (event) => {
+    if (event.pointerType !== "touch") scheduleHideDetail();
+  });
+
+  rail.addEventListener("focusin", (event) => {
+    const card = event.target.closest?.(".ruler");
+    if (card) showHoverDetail(Number(card.dataset.index));
+  });
+
+  rail.addEventListener("focusout", (event) => {
+    if (!rail.contains(event.relatedTarget)) scheduleHideDetail();
+  });
+
+  document.addEventListener(
+    "pointerdown",
+    (event) => {
+      if (event.pointerType !== "touch") return;
+      if (!event.target.closest?.(".ruler")) hideHoverDetail();
+    },
+    { passive: true }
+  );
+
+  // Arrow keys move focus between cards; the focused card updates the dossier.
   rail.addEventListener("keydown", (event) => {
     const keys = ["ArrowLeft", "ArrowRight", "Home", "End"];
     if (!keys.includes(event.key)) return;
@@ -359,15 +341,6 @@
     if (event.key === "End") target = cards.length - 1;
 
     cards[target].focus({ preventScroll: true });
-  });
-
-  spotlightClose.addEventListener("click", () => closeSpotlight());
-  spotlightScrim.addEventListener("click", () => closeSpotlight());
-
-  spotlight.addEventListener("keydown", (event) => {
-    if (event.key !== "Tab") return;
-    event.preventDefault();
-    spotlightClose.focus();
   });
 
   /* -------------------------------------------------------
@@ -400,17 +373,13 @@
     hasRevealed = false;
     activeIndex = -1;
     visited.clear();
-    body.classList.remove("is-revealed", "all-visited", "spotlight-open");
+    body.classList.remove("is-revealed", "all-visited");
     main.setAttribute("aria-hidden", "true");
-    main.inert = false;
-    masthead.inert = false;
     prologue.removeAttribute("aria-hidden");
     prologue.inert = false;
-    spotlight.classList.remove("is-open");
-    spotlight.setAttribute("aria-hidden", "true");
-    spotlight.inert = true;
-    spotlight.setAttribute("inert", "");
-    if (spotlightHideTimer) window.clearTimeout(spotlightHideTimer);
+    hoverDetail.classList.remove("is-visible");
+    hoverDetail.setAttribute("aria-hidden", "true");
+    if (hideDetailTimer) window.clearTimeout(hideDetailTimer);
     ticks.forEach((tick) => tick.classList.remove("is-read"));
     progressLabel.textContent = "已看 0 / 5 段自述";
     typingToken += 1;
@@ -433,9 +402,9 @@
   window.QinEnding = {
     reveal: (options = {}) => revealPage(options),
     reset: resetPage,
-    activate: (index) => openSpotlight(index),
-    open: (index) => openSpotlight(index),
-    close: () => closeSpotlight(),
+    activate: (index) => showHoverDetail(index),
+    open: (index) => showHoverDetail(index),
+    close: () => hideHoverDetail(),
     get activeIndex() { return activeIndex; },
     get visited() { return [...visited]; },
     rulers: RULERS.map(({ id, name }) => ({ id, name }))
@@ -445,8 +414,8 @@
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
-    if (spotlight.classList.contains("is-open")) {
-      closeSpotlight();
+    if (hoverDetail.classList.contains("is-visible")) {
+      hideHoverDetail();
     } else if (!hasRevealed) {
       revealPage({ focus: true });
     }
