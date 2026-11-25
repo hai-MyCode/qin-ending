@@ -114,6 +114,8 @@
   let typingToken = 0;
   let revealTimer = null;
   let hideDetailTimer = null;
+  let hoverStopTimer = null;
+  let hoverPoint = { x: 0, y: 0 };
   let hasRevealed = false;
   const visited = new Set();
 
@@ -231,10 +233,18 @@
     typeInto(hoverBody, ruler.body);
   }
 
+  function clearHoverStop() {
+    if (hoverStopTimer) {
+      window.clearTimeout(hoverStopTimer);
+      hoverStopTimer = null;
+    }
+  }
+
   function showHoverDetail(index) {
     const next = Number(index);
     if (!Number.isInteger(next) || next < 0 || next >= cards.length) return;
 
+    clearHoverStop();
     if (hideDetailTimer) {
       window.clearTimeout(hideDetailTimer);
       hideDetailTimer = null;
@@ -266,6 +276,7 @@
   }
 
   function hideHoverDetail() {
+    clearHoverStop();
     if (activeIndex === -1 && !hoverDetail.classList.contains("is-visible")) return;
 
     activeIndex = -1;
@@ -282,6 +293,7 @@
   }
 
   function scheduleHideDetail() {
+    clearHoverStop();
     if (hideDetailTimer) window.clearTimeout(hideDetailTimer);
     hideDetailTimer = window.setTimeout(() => {
       hideDetailTimer = null;
@@ -289,11 +301,37 @@
     }, 90);
   }
 
-  cards.forEach((card, index) => {
-    card.addEventListener("pointerenter", (event) => {
-      if (event.pointerType !== "touch") showHoverDetail(index);
-    });
+  rail.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "touch") return;
 
+    hoverPoint = { x: event.clientX, y: event.clientY };
+    const card = event.target.closest?.(".ruler");
+
+    if (!card) {
+      clearHoverStop();
+      return;
+    }
+
+    const index = Number(card.dataset.index);
+    if (index === activeIndex) {
+      clearHoverStop();
+      return;
+    }
+
+    clearHoverStop();
+    hoverStopTimer = window.setTimeout(() => {
+      hoverStopTimer = null;
+      const current = document
+        .elementFromPoint(hoverPoint.x, hoverPoint.y)
+        ?.closest(".ruler");
+
+      if (current && Number(current.dataset.index) === index) {
+        showHoverDetail(index);
+      }
+    }, 150);
+  });
+
+  cards.forEach((card, index) => {
     card.addEventListener("click", () => {
       showHoverDetail(index);
     });
