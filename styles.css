@@ -1691,11 +1691,28 @@ body.all-visited .coda.in-view .seal {
     border-color 0.4s ease;
 }
 
-@media (hover: hover) {
-  .rail:has(.ruler:hover) .ruler:not(:hover) {
-    opacity: 0.56;
-  }
+.rail:has(.ruler:hover) .ruler:not(:hover),
+.rail:has(.ruler.is-current) .ruler:not(.is-current) {
+  opacity: 0.56;
+}
 
+.ruler.is-current {
+  z-index: 5;
+  border-color: rgba(var(--accent-rgb), 0.55);
+  transform: scaleX(1.05);
+}
+
+.ruler.is-current .ruler-aura {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.ruler.is-current .ghost-glyph {
+  color: rgba(var(--accent-rgb), 0.07);
+  transform: translateX(-50%) translateY(6px);
+}
+
+@media (hover: hover) {
   .ruler:hover {
     z-index: 5;
     border-color: rgba(var(--accent-rgb), 0.55);
@@ -1743,6 +1760,10 @@ body.all-visited .coda.in-view .seal {
   transform: translate(-50%, 18px);
   pointer-events: none;
   transition: opacity 0.28s ease, transform 0.4s var(--ease-out), visibility 0.4s;
+}
+
+.hover-detail.is-visible {
+  pointer-events: auto;
 }
 
 .hover-detail::before {

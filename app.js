@@ -244,6 +244,9 @@
 
     const ruler = RULERS[next];
     activeIndex = next;
+    cards.forEach((card, cardIndex) => {
+      card.classList.toggle("is-current", cardIndex === next);
+    });
     setHoverContent(ruler);
     hoverDetail.classList.add("is-visible");
     hoverDetail.setAttribute("aria-hidden", "false");
@@ -266,6 +269,7 @@
     if (activeIndex === -1 && !hoverDetail.classList.contains("is-visible")) return;
 
     activeIndex = -1;
+    cards.forEach((card) => card.classList.remove("is-current"));
     hoverDetail.classList.remove("is-visible");
     hoverDetail.setAttribute("aria-hidden", "true");
 
@@ -308,11 +312,22 @@
     if (!rail.contains(event.relatedTarget)) scheduleHideDetail();
   });
 
+  hoverDetail.addEventListener("pointerenter", () => {
+    if (hideDetailTimer) {
+      window.clearTimeout(hideDetailTimer);
+      hideDetailTimer = null;
+    }
+  });
+
+  hoverDetail.addEventListener("pointerleave", scheduleHideDetail);
+
   document.addEventListener(
     "pointerdown",
     (event) => {
       if (event.pointerType !== "touch") return;
-      if (!event.target.closest?.(".ruler")) hideHoverDetail();
+      if (!event.target.closest?.(".ruler") && !event.target.closest?.(".hover-detail")) {
+        hideHoverDetail();
+      }
     },
     { passive: true }
   );
