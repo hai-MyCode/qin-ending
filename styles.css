@@ -2191,9 +2191,11 @@ body.spotlight-open {
   flex-direction: column;
   justify-content: center;
   min-width: 0;
-  padding: clamp(38px, 4vw, 62px) clamp(30px, 4vw, 62px);
+  padding: clamp(30px, 3vw, 44px) clamp(30px, 4vw, 62px);
   background: linear-gradient(90deg, rgba(12, 10, 8, 0) 0%, rgba(12, 10, 8, 0.72) 12%, rgba(12, 10, 8, 0.95) 48%, #0b0907 100%);
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--accent-rgb), 0.35) transparent;
 }
 
 .spotlight-kicker {
@@ -2214,25 +2216,42 @@ body.spotlight-open {
   letter-spacing: 0.08em;
 }
 
-.spotlight-era {
-  margin: 11px 0 0;
-  color: rgba(var(--accent-rgb), 0.9);
+.spotlight-role {
+  margin: 10px 0 0;
+  color: rgba(var(--accent-rgb), 0.92);
   font-family: var(--font-sans);
-  font-size: 10.5px;
-  line-height: 1.8;
-  letter-spacing: 0.13em;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.spotlight-era {
+  margin: 5px 0 0;
+  color: rgba(207, 192, 164, 0.6);
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  line-height: 1.7;
+  letter-spacing: 0.1em;
 }
 
 .spotlight-rule {
   display: block;
   width: 44px;
   height: 1px;
-  margin: 24px 0 20px;
+  margin: 16px 0 14px;
   background: rgba(var(--accent-rgb), 0.45);
 }
 
+.spotlight-intro {
+  margin: 0 0 14px;
+  color: rgba(207, 192, 164, 0.82);
+  font-family: var(--font-serif);
+  font-size: 12.5px;
+  line-height: 1.85;
+  letter-spacing: 0.035em;
+}
+
 .spotlight-lead {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   color: rgba(var(--accent-rgb), 0.92);
   font-family: var(--font-sans);
   font-size: 9px;
@@ -2249,17 +2268,70 @@ body.spotlight-open {
 }
 
 .spotlight-body {
-  min-height: 5.4em;
-  margin: 18px 0 0;
-  color: rgba(207, 192, 164, 0.8);
+  min-height: 0;
+  margin: 10px 0 0;
+  color: rgba(207, 192, 164, 0.78);
   font-family: var(--font-serif);
-  font-size: 14px;
-  line-height: 2;
+  font-size: 12.5px;
+  line-height: 1.85;
   letter-spacing: 0.04em;
 }
 
+.spotlight-facts {
+  display: grid;
+  gap: 7px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(var(--accent-rgb), 0.18);
+}
+
+.spotlight-facts p {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 10px;
+  margin: 0;
+  color: rgba(207, 192, 164, 0.76);
+  font-family: var(--font-serif);
+  font-size: 10.5px;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+}
+
+.spotlight-facts span {
+  padding-top: 2px;
+  color: rgba(var(--accent-rgb), 0.9);
+  font-family: var(--font-sans);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+.spotlight-quote {
+  margin: 14px 0 0;
+  padding: 9px 0 0 14px;
+  border-left: 2px solid rgba(var(--accent-rgb), 0.45);
+}
+
+.spotlight-quote p {
+  margin: 0;
+  color: rgba(244, 231, 207, 0.9);
+  font-family: var(--font-kai);
+  font-size: 13.5px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.spotlight-quote cite {
+  display: block;
+  margin-top: 5px;
+  color: rgba(152, 139, 116, 0.65);
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-style: normal;
+  letter-spacing: 0.1em;
+}
+
 .spotlight-meta {
-  margin: 18px 0 0;
+  margin: 14px 0 0;
   color: rgba(152, 139, 116, 0.65);
   font-family: var(--font-sans);
   font-size: 9px;

@@ -17,8 +17,16 @@
       years: "约前 890 年受封",
       epithet: "得封于秦",
       glyph: "封",
+      role: "周附庸 · 秦邑之主",
       merit: ["为周王养马", "得封于秦"],
       body: "汧渭之间，马群蕃息。周孝王赐我秦邑，秦人从此有了第一块自己的土地。",
+      intro: "秦人早期只是周王室西陲的一支附庸。非子因善养马被周孝王召去主马，秦邑之封让这个族群第一次有了正式的名字与土地。",
+      facts: [
+        { label: "受封", text: "周孝王召非子主马于汧、渭之间，马大蕃息，封为附庸，邑之秦。" },
+        { label: "地理", text: "秦邑约在今甘肃清水、张家川一带，是秦人第一块正式封地。" },
+        { label: "身份", text: "非子还不是诸侯，秦此时只是周王室的附庸。" }
+      ],
+      quote: { text: "邑之秦，使复续嬴氏祀，号曰秦嬴。", source: "《史记·秦本纪》" },
       full: "我在汧渭之间为周孝王养马，马群蕃息。周孝王封我于秦，秦人从此有了第一块属于自己的土地。",
       meta: "秦国的第一块土地",
       accent: "#a3ae79",
@@ -34,8 +42,16 @@
       years: "护送平王东迁",
       epithet: "列为诸侯",
       glyph: "侯",
+      role: "秦国始封诸侯",
       merit: ["护送平王东迁", "秦国始列诸侯"],
       body: "犬戎之乱，我率兵救周。平王东迁，赐我岐西之地。秦国自此与中原诸侯并列。",
+      intro: "犬戎攻破镐京、周幽王被杀后，襄公率兵救周，又护送周平王东迁。平王赐岐以西之地，秦由此从附庸变成诸侯。",
+      facts: [
+        { label: "救周", text: "犬戎之乱，襄公将兵救周，战甚力，有功。" },
+        { label: "东迁", text: "周平王东徙洛邑，襄公以兵护送。" },
+        { label: "始国", text: "平王封襄公为诸侯，赐岐以西之地；秦始与诸侯通使聘享。" }
+      ],
+      quote: { text: "襄公于是始国，与诸侯通使聘享之礼。", source: "《史记·秦本纪》" },
       full: "犬戎之乱，我率兵救周；又护送周平王东迁。平王赐我岐西之地，秦国自此与中原诸侯并列。",
       meta: "从附庸到诸侯",
       accent: "#c98556",
@@ -51,8 +67,16 @@
       years: "灭国十二，开地千里",
       epithet: "称霸西戎",
       glyph: "霸",
+      role: "西戎霸主 · 春秋五霸之一",
       merit: ["纳百里奚、蹇叔", "灭国十二，称霸西戎"],
       body: "我纳贤才、修国政，东与强晋争衡，西霸戎狄。秦国第一次强得让中原侧目。",
+      intro: "穆公任用百里奚、蹇叔、由余，东与晋争衡，西向戎狄开地，秦国第一次成为让中原侧目的强国。",
+      facts: [
+        { label: "纳贤", text: "以百里奚为五羖大夫，迎蹇叔，任用由余。" },
+        { label: "韩原", text: "前645年，秦、晋战于韩原，秦俘晋惠公，后又归之。" },
+        { label: "霸西戎", text: "前623年，用由余谋伐戎王，益国十二，开地千里。" }
+      ],
+      quote: { text: "益国十二，开地千里，遂霸西戎。", source: "《史记·秦本纪》" },
       full: "我用百里奚、蹇叔，纳贤才、修国政；东与强晋争衡，西霸戎狄，灭国十二，开地千里。秦国第一次让中原侧目。",
       meta: "秦国的第一次霸业",
       accent: "#d6ad6c",
@@ -68,8 +92,16 @@
       years: "令狐、河曲之战",
       epithet: "与晋争锋",
       glyph: "峙",
+      role: "穆公之子 · 守成之君",
       merit: ["继穆公之业", "与晋争锋，不退西土"],
       body: "令狐、河曲，我与晋国反复交锋。胜负之外，秦国始终钉在西土，没有退出这盘棋。",
+      intro: "康公即位时，秦已是西土强国，但东出之路被晋国挡住。他在令狐、河曲与晋反复交锋，未能东进，却守住了穆公留下的基业。",
+      facts: [
+        { label: "令狐", text: "前620年，秦送公子雍入晋，赵盾拒之，秦师败于令狐。" },
+        { label: "河曲", text: "前615年，秦伐晋，取羁马，战于河曲，大败晋军。" },
+        { label: "用人", text: "晋大夫随会奔秦，康公留用；后晋人设计迎回随会。" }
+      ],
+      quote: { text: "六年，秦伐晋，取羁马，战于河曲，大败晋军。", source: "《史记·秦本纪》" },
       full: "我继穆公之业，与晋国战于令狐、河曲。胜负之外，秦国始终钉在西土，没有退出这盘棋。",
       meta: "守住秦国的位置",
       accent: "#84a4b3",
@@ -82,12 +114,20 @@
       roman: "QIN GONG GONG",
       image: "assets/portrait-gong.webp",
       era: "春秋 · 前 608—前 604",
-      years: "在位四年 · 守国待时",
+      years: "守国待时 · 年数有异说",
       epithet: "守国待时",
       glyph: "守",
+      role: "康公之子 · 守成之君",
       merit: ["在位虽短", "社稷未失，交予后来者"],
-      body: "我在位只有四年，史书没留下多少笔墨。但我守住了社稷，把秦国交到后来者手中。",
-      full: "我在位只有四年，史书没留下多少笔墨。但我守住了社稷，把秦国交到后来者手中。",
+      body: "我在位很短，史书留下的笔墨不多。但我守住了社稷，把秦国交到后来者手中。",
+      intro: "共公在位很短，史料留下的笔墨不多。他即位的第二年，晋国发生赵穿弑晋灵公之乱；秦国没有大举东出，而是守住了西土社稷。",
+      facts: [
+        { label: "晋乱", text: "共公二年，晋赵穿弑其君灵公。" },
+        { label: "年数", text: "《史记·秦本纪》记共公立五年；《左传》系年可推四年。" },
+        { label: "传承", text: "共公卒，子桓公立；秦国的接力继续。" }
+      ],
+      quote: { text: "共公立五年卒，子桓公立。", source: "《史记·秦本纪》" },
+      full: "我在位很短，史书留下的笔墨不多。但我守住了社稷，把秦国交到后来者手中。",
       meta: "把火种交给下一个人",
       accent: "#b9929a",
       accentRgb: "185, 146, 154",
@@ -112,8 +152,13 @@
   const spotlight = document.getElementById("spotlight");
   const spotlightImage = document.getElementById("spotlight-image");
   const spotlightName = document.getElementById("spotlight-name");
+  const spotlightRole = document.getElementById("spotlight-role");
   const spotlightEra = document.getElementById("spotlight-era");
+  const spotlightIntro = document.getElementById("spotlight-intro");
   const spotlightMerit = document.getElementById("spotlight-merit");
+  const spotlightFacts = document.getElementById("spotlight-facts");
+  const spotlightQuote = document.getElementById("spotlight-quote");
+  const spotlightCite = document.getElementById("spotlight-cite");
   const spotlightBody = document.getElementById("spotlight-body");
   const spotlightDescription = document.getElementById("spotlight-description");
   const spotlightMeta = document.getElementById("spotlight-meta");
@@ -350,10 +395,22 @@
     spotlight.style.setProperty("--accent", ruler.accent);
     spotlight.style.setProperty("--accent-rgb", ruler.accentRgb);
     spotlightName.textContent = ruler.name;
+    spotlightRole.textContent = ruler.role;
     spotlightEra.textContent = `${ruler.era} · ${ruler.years}`;
+    spotlightIntro.textContent = ruler.intro;
     spotlightMerit.innerHTML = ruler.merit.join("<br />");
+    spotlightFacts.innerHTML = ruler.facts
+      .map((fact) => `<p><span>${fact.label}</span>${fact.text}</p>`)
+      .join("");
+    spotlightQuote.textContent = `“${ruler.quote.text}”`;
+    spotlightCite.textContent = `—— ${ruler.quote.source}`;
     spotlightMeta.textContent = ruler.meta;
-    spotlightDescription.textContent = `${ruler.era}，${ruler.years}。${ruler.full}`;
+    spotlightDescription.textContent = [
+      ruler.role,
+      ruler.intro,
+      ...ruler.facts.map((fact) => `${fact.label}：${fact.text}`),
+      `史料：${ruler.quote.text}（${ruler.quote.source}）`
+    ].join(" ");
     spotlightImage.src = ruler.image;
     typeInto(spotlightBody, ruler.body);
   }
