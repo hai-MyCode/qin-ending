@@ -109,13 +109,26 @@
   const hoverBody = document.getElementById("hover-detail-body");
   const hoverMeta = document.getElementById("hover-detail-meta");
 
+  const spotlight = document.getElementById("spotlight");
+  const spotlightImage = document.getElementById("spotlight-image");
+  const spotlightName = document.getElementById("spotlight-name");
+  const spotlightEra = document.getElementById("spotlight-era");
+  const spotlightMerit = document.getElementById("spotlight-merit");
+  const spotlightBody = document.getElementById("spotlight-body");
+  const spotlightDescription = document.getElementById("spotlight-description");
+  const spotlightMeta = document.getElementById("spotlight-meta");
+  const spotlightClose = document.getElementById("spotlight-close");
+  const spotlightScrim = document.getElementById("spotlight-scrim");
+
   let activeIndex = -1;
+  let modalIndex = -1;
   let typingTimer = null;
   let typingToken = 0;
   let revealTimer = null;
   let hideDetailTimer = null;
   let hoverStopTimer = null;
   let hoverPoint = { x: 0, y: 0 };
+  let modalHideTimer = null;
   let hasRevealed = false;
   const visited = new Set();
 
@@ -138,6 +151,8 @@
         type="button"
         data-index="${index}"
         aria-label="${label}"
+        aria-haspopup="dialog"
+        aria-controls="spotlight"
         style="--accent:${r.accent};--accent-rgb:${r.accentRgb};--i:${index}"
       >
         <span class="ruler-inner">
@@ -331,10 +346,102 @@
     }, 150);
   });
 
+  function setSpotlightContent(ruler) {
+    spotlight.style.setProperty("--accent", ruler.accent);
+    spotlight.style.setProperty("--accent-rgb", ruler.accentRgb);
+    spotlightName.textContent = ruler.name;
+    spotlightEra.textContent = `${ruler.era} · ${ruler.years}`;
+    spotlightMerit.innerHTML = ruler.merit.join("<br />");
+    spotlightMeta.textContent = ruler.meta;
+    spotlightDescription.textContent = `${ruler.era}，${ruler.years}。${ruler.full}`;
+    spotlightImage.src = ruler.image;
+    typeInto(spotlightBody, ruler.body);
+  }
+
+  function openSpotlight(index) {
+    const next = Number(index);
+    if (!Number.isInteger(next) || next < 0 || next >= cards.length) return;
+
+    hideHoverDetail();
+    if (modalHideTimer) {
+      window.clearTimeout(modalHideTimer);
+      modalHideTimer = null;
+    }
+
+    const ruler = RULERS[next];
+    modalIndex = next;
+    setSpotlightContent(ruler);
+
+    body.classList.add("spotlight-open");
+    main.inert = true;
+    spotlight.inert = false;
+    spotlight.removeAttribute("inert");
+    spotlight.setAttribute("aria-hidden", "false");
+
+    void spotlight.offsetWidth;
+    window.requestAnimationFrame(() => {
+      spotlight.classList.add("is-open");
+      window.setTimeout(() => {
+        spotlightClose.focus({ preventScroll: true });
+      }, 70);
+    });
+
+    if (!visited.has(ruler.id)) {
+      visited.add(ruler.id);
+      updateProgress();
+    }
+
+    liveRegion.textContent = `${ruler.name}。${ruler.full}`;
+
+    window.dispatchEvent(
+      new CustomEvent("qin:ending:ruler", {
+        detail: { index: next, id: ruler.id, name: ruler.name }
+      })
+    );
+  }
+
+  function closeSpotlight() {
+    if (!spotlight.classList.contains("is-open")) return;
+
+    const closingIndex = modalIndex;
+    spotlight.classList.remove("is-open");
+    spotlight.setAttribute("aria-hidden", "true");
+    body.classList.remove("spotlight-open");
+    main.inert = false;
+    modalIndex = -1;
+
+    typingToken += 1;
+    if (typingTimer) {
+      window.clearTimeout(typingTimer);
+      typingTimer = null;
+    }
+    document.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
+
+    if (closingIndex >= 0) {
+      cards[closingIndex].focus({ preventScroll: true });
+    }
+
+    modalHideTimer = window.setTimeout(() => {
+      if (!spotlight.classList.contains("is-open")) {
+        spotlight.inert = true;
+        spotlight.setAttribute("inert", "");
+      }
+    }, reducedMotion.matches ? 0 : 360);
+  }
+
   cards.forEach((card, index) => {
     card.addEventListener("click", () => {
-      showHoverDetail(index);
+      openSpotlight(index);
     });
+  });
+
+  spotlightClose.addEventListener("click", closeSpotlight);
+  spotlightScrim.addEventListener("click", closeSpotlight);
+
+  spotlight.addEventListener("keydown", (event) => {
+    if (event.key !== "Tab") return;
+    event.preventDefault();
+    spotlightClose.focus();
   });
 
   rail.addEventListener("pointerleave", (event) => {
@@ -424,6 +531,13 @@
     hoverDetail.classList.remove("is-visible");
     hoverDetail.setAttribute("aria-hidden", "true");
     if (hideDetailTimer) window.clearTimeout(hideDetailTimer);
+    spotlight.classList.remove("is-open");
+    spotlight.setAttribute("aria-hidden", "true");
+    spotlight.inert = true;
+    spotlight.setAttribute("inert", "");
+    main.inert = false;
+    modalIndex = -1;
+    if (modalHideTimer) window.clearTimeout(modalHideTimer);
     typingToken += 1;
     if (typingTimer) window.clearTimeout(typingTimer);
     document.querySelectorAll(".typed-caret").forEach((caret) => caret.remove());
@@ -456,7 +570,9 @@
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
-    if (hoverDetail.classList.contains("is-visible")) {
+    if (spotlight.classList.contains("is-open")) {
+      closeSpotlight();
+    } else if (hoverDetail.classList.contains("is-visible")) {
       hideHoverDetail();
     } else if (!hasRevealed) {
       revealPage({ focus: true });

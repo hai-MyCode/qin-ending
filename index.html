@@ -70,6 +70,39 @@
     </section>
   </main>
 
+  <div class="spotlight" id="spotlight" aria-hidden="true" inert>
+    <div class="spotlight-scrim" id="spotlight-scrim" aria-hidden="true"></div>
+    <section
+      class="spotlight-panel"
+      id="spotlight-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="spotlight-name"
+      aria-describedby="spotlight-description"
+      tabindex="-1"
+    >
+      <button class="spotlight-close" id="spotlight-close" type="button" aria-label="关闭人物档案">
+        <span aria-hidden="true"></span>
+      </button>
+
+      <div class="spotlight-figure" aria-hidden="true">
+        <img id="spotlight-image" src="" alt="" width="832" height="1248" draggable="false" decoding="async" />
+      </div>
+
+      <div class="spotlight-copy">
+        <p class="spotlight-kicker">秦国五君 · 人物档案</p>
+        <h2 class="spotlight-name" id="spotlight-name"></h2>
+        <p class="spotlight-era" id="spotlight-era"></p>
+        <span class="spotlight-rule" aria-hidden="true"></span>
+        <p class="spotlight-lead">我做的是——</p>
+        <p class="spotlight-merit" id="spotlight-merit"></p>
+        <p class="spotlight-body" id="spotlight-body" aria-hidden="true"></p>
+        <p class="sr-only" id="spotlight-description"></p>
+        <p class="spotlight-meta" id="spotlight-meta"></p>
+      </div>
+    </section>
+  </div>
+
   <aside class="hover-detail" id="hover-detail" aria-hidden="true">
     <div class="hover-detail-inner">
       <div class="hover-detail-id">
