@@ -208,6 +208,7 @@
   let activeIndex = -1;
   let bgmEnabled = true;
   let narrationPlaying = false;
+  let narrationStartTimer = null;
   let modalIndex = -1;
   let typingTimer = null;
   let typingToken = 0;
@@ -493,7 +494,27 @@
     updateBgmVolume();
   }
 
+  function clearNarrationStart() {
+    if (narrationStartTimer) {
+      window.clearTimeout(narrationStartTimer);
+      narrationStartTimer = null;
+    }
+  }
+
+  function scheduleNarration(delay = 1000) {
+    clearNarrationStart();
+    spotlightAudioBtn.setAttribute("aria-pressed", "false");
+    spotlightAudioBtn.setAttribute("aria-label", "正在准备朗读");
+    spotlightAudioIcon.textContent = "…";
+    spotlightAudioLabel.textContent = "准备中";
+    narrationStartTimer = window.setTimeout(() => {
+      narrationStartTimer = null;
+      if (spotlight.classList.contains("is-open")) startNarration();
+    }, delay);
+  }
+
   function startNarration({ restart = false } = {}) {
+    clearNarrationStart();
     if (restart || spotlightAudio.ended) spotlightAudio.currentTime = 0;
     tryPlayBgm();
     const attempt = spotlightAudio.play();
@@ -505,6 +526,7 @@
   }
 
   function stopNarration() {
+    clearNarrationStart();
     spotlightAudio.pause();
     spotlightAudio.currentTime = 0;
     narrationPlaying = false;
@@ -572,7 +594,7 @@
       })
     );
 
-    startNarration();
+    scheduleNarration(1000);
   }
 
   function closeSpotlight() {
@@ -636,6 +658,7 @@
   });
   spotlightAudio.addEventListener("error", () => {
     if (!spotlightAudio.getAttribute("src")) return;
+    clearNarrationStart();
     spotlightAudioBtn.disabled = true;
     spotlightAudioReplay.disabled = true;
     setNarrationState(false);
@@ -644,7 +667,7 @@
   });
 
   bgm.volume = 0.12;
-  spotlightAudio.volume = 0.72;
+  spotlightAudio.volume = 0.1;
   bgm.addEventListener("play", updateSoundToggle);
   bgm.addEventListener("pause", updateSoundToggle);
 
