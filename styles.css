@@ -1597,7 +1597,7 @@ body.all-visited .coda.in-view .seal {
   }
 
   .view-cue {
-    top: 14px;
+    top: calc(14px + env(safe-area-inset-top));
     right: 12px;
     padding: 5px 8px 5px 6px;
     font-size: 9.5px;
@@ -2377,6 +2377,13 @@ body.is-revealed .sound-toggle {
   pointer-events: auto;
 }
 
+body.spotlight-open .sound-toggle {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
 .sound-toggle:hover,
 .sound-toggle:focus-visible {
   color: var(--ink);
@@ -2497,6 +2504,10 @@ body.is-revealed .sound-toggle {
   height: 1px;
   margin: 16px 0 14px;
   background: rgba(var(--accent-rgb), 0.45);
+}
+
+.spotlight-scroll-hint {
+  display: none;
 }
 
 .spotlight-story {
@@ -2651,30 +2662,48 @@ body.is-revealed .sound-toggle {
 @media (max-width: 760px) {
   .spotlight-panel {
     grid-template-columns: 1fr;
-    grid-template-rows: 42% 58%;
-    width: 92vw;
-    height: 90dvh;
+    grid-template-rows: 58px minmax(160px, 32dvh) 1fr;
+    width: 100vw;
+    height: 100dvh;
     max-width: none;
     max-height: none;
-    border: 1px solid rgba(var(--accent-rgb), 0.4);
+    padding-top: env(safe-area-inset-top);
+    border: 0;
+  }
+
+  .spotlight-figure {
+    grid-row: 2;
+    background: #0b0907;
+  }
+
+  .spotlight-figure img {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 10%;
   }
 
   .spotlight-copy {
+    grid-row: 3;
     justify-content: flex-start;
-    padding: 24px 22px 30px;
-    background: linear-gradient(180deg, rgba(11, 9, 7, 0) 0%, #0b0907 10%);
+    padding: 18px 20px calc(24px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, rgba(11, 9, 7, 0) 0%, #0b0907 8%);
+    overscroll-behavior: contain;
   }
 
   .spotlight-close {
-    top: 14px;
-    right: 14px;
+    top: calc(9px + env(safe-area-inset-top));
+    right: 12px;
     width: 40px;
     height: 40px;
   }
 
   .spotlight-audio-controls {
-    top: 14px;
-    right: 62px;
+    top: calc(9px + env(safe-area-inset-top));
+    right: 60px;
+    left: 12px;
+    justify-content: flex-start;
     gap: 4px;
   }
 
@@ -2691,13 +2720,33 @@ body.is-revealed .sound-toggle {
   }
 
   .sound-toggle {
-    bottom: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom));
     left: 14px;
     min-height: 34px;
   }
 
+  .reveal .spine {
+    padding-bottom: calc(28px + env(safe-area-inset-bottom));
+  }
+
   .spotlight-name {
     font-size: 36px;
+  }
+
+  .spotlight-scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 13px;
+    color: rgba(207, 192, 164, 0.55);
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .spotlight-scroll-hint span {
+    color: var(--accent);
+    font-size: 13px;
   }
 
   .spotlight-story {
@@ -2711,7 +2760,69 @@ body.is-revealed .sound-toggle {
   }
 
   .spotlight-rule {
-    margin: 18px 0 16px;
+    margin: 16px 0 14px;
+  }
+
+  .reveal .rail {
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .reveal .ruler {
+    flex-basis: 84vw;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  body.is-revealed .prologue {
+    transition-duration: 0.45s;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 650px) {
+  .spotlight-panel {
+    grid-template-rows: 52px minmax(120px, 24dvh) 1fr;
+  }
+
+  .spotlight-close {
+    top: 6px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .spotlight-audio-controls {
+    top: 6px;
+  }
+
+  .spotlight-audio-btn,
+  .spotlight-audio-replay {
+    height: 38px;
+    padding: 0 9px;
+    font-size: 9px;
+  }
+
+  .spotlight-copy {
+    padding: 14px 18px calc(20px + env(safe-area-inset-bottom));
+  }
+
+  .spotlight-name {
+    font-size: 32px;
+  }
+
+  .spotlight-scroll-hint {
+    margin-bottom: 10px;
+    font-size: 8.5px;
+  }
+
+  .spotlight-story {
+    gap: 9px;
+  }
+
+  .spotlight-story p,
+  .spotlight-story p:first-child {
+    font-size: 15px;
+    line-height: 1.85;
   }
 }
 
