@@ -644,6 +644,7 @@
   });
 
   bgm.volume = 0.12;
+  spotlightAudio.volume = 0.72;
   bgm.addEventListener("play", updateSoundToggle);
   bgm.addEventListener("pause", updateSoundToggle);
 
