@@ -241,7 +241,7 @@
         aria-label="${label}"
         aria-haspopup="dialog"
         aria-controls="spotlight"
-        title="点击查看人物档案并自动朗读"
+        title="点击查看人物诉说"
         style="--accent:${r.accent};--accent-rgb:${r.accentRgb};--i:${index}"
       >
         <span class="ruler-inner">
