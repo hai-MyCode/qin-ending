@@ -85,10 +85,16 @@
         <span aria-hidden="true"></span>
       </button>
 
-      <button class="spotlight-audio-btn" id="spotlight-audio-btn" type="button" aria-label="朗读当前人物档案" aria-pressed="false">
-        <span class="spotlight-audio-icon" id="spotlight-audio-icon" aria-hidden="true">▶</span>
-        <span class="spotlight-audio-label" id="spotlight-audio-label">朗读</span>
-      </button>
+      <div class="spotlight-audio-controls" id="spotlight-audio-controls">
+        <button class="spotlight-audio-btn" id="spotlight-audio-btn" type="button" aria-label="暂停朗读" aria-pressed="true">
+          <span class="spotlight-audio-icon" id="spotlight-audio-icon" aria-hidden="true">❚❚</span>
+          <span class="spotlight-audio-label" id="spotlight-audio-label">暂停</span>
+        </button>
+        <button class="spotlight-audio-replay" id="spotlight-audio-replay" type="button" aria-label="重新播放人物旁白" title="重新播放">
+          <span aria-hidden="true">↺</span>
+          <span>重新播放</span>
+        </button>
+      </div>
 
       <div class="spotlight-figure" aria-hidden="true">
         <img id="spotlight-image" src="" alt="" width="832" height="1248" draggable="false" decoding="async" />

@@ -197,6 +197,7 @@
   const spotlightScrim = document.getElementById("spotlight-scrim");
   const spotlightAudio = document.getElementById("spotlight-audio");
   const spotlightAudioBtn = document.getElementById("spotlight-audio-btn");
+  const spotlightAudioReplay = document.getElementById("spotlight-audio-replay");
   const spotlightAudioIcon = document.getElementById("spotlight-audio-icon");
   const spotlightAudioLabel = document.getElementById("spotlight-audio-label");
   const spotlightAudioBar = document.getElementById("spotlight-audio-bar");
@@ -479,17 +480,28 @@
       spotlightAudioLabel.textContent = "暂停";
       spotlightAudioBtn.setAttribute("aria-label", "暂停朗读");
     } else if (spotlightAudio.ended) {
-      spotlightAudioLabel.textContent = "重听";
-      spotlightAudioBtn.setAttribute("aria-label", "重新朗读");
+      spotlightAudioLabel.textContent = "播放";
+      spotlightAudioBtn.setAttribute("aria-label", "重新播放人物旁白");
     } else if (spotlightAudio.currentTime > 0) {
       spotlightAudioLabel.textContent = "继续";
       spotlightAudioBtn.setAttribute("aria-label", "继续朗读");
     } else {
-      spotlightAudioLabel.textContent = "朗读";
-      spotlightAudioBtn.setAttribute("aria-label", "朗读当前人物档案");
+      spotlightAudioLabel.textContent = "播放";
+      spotlightAudioBtn.setAttribute("aria-label", "播放人物旁白");
     }
 
     updateBgmVolume();
+  }
+
+  function startNarration({ restart = false } = {}) {
+    if (restart || spotlightAudio.ended) spotlightAudio.currentTime = 0;
+    tryPlayBgm();
+    const attempt = spotlightAudio.play();
+    if (attempt && typeof attempt.catch === "function") {
+      attempt.catch(() => {
+        setNarrationState(false);
+      });
+    }
   }
 
   function stopNarration() {
@@ -512,6 +524,7 @@
     spotlightDescription.textContent = [ruler.role, ...ruler.story].join(" ");
     spotlightImage.src = ruler.image;
     spotlightAudioBtn.disabled = false;
+    spotlightAudioReplay.disabled = false;
     spotlightAudio.src = ruler.audio;
     spotlightAudio.load();
     updateAudioProgress();
@@ -558,6 +571,8 @@
         detail: { index: next, id: ruler.id, name: ruler.name }
       })
     );
+
+    startNarration();
   }
 
   function closeSpotlight() {
@@ -602,18 +617,14 @@
 
   spotlightAudioBtn.addEventListener("click", () => {
     if (spotlightAudio.paused) {
-      if (spotlightAudio.ended) spotlightAudio.currentTime = 0;
-      tryPlayBgm();
-      const attempt = spotlightAudio.play();
-      if (attempt && typeof attempt.catch === "function") {
-        attempt.catch(() => {
-          spotlightAudioLabel.textContent = "音频不可用";
-          spotlightAudioBtn.setAttribute("aria-label", "音频不可用");
-        });
-      }
+      startNarration();
     } else {
       spotlightAudio.pause();
     }
+  });
+
+  spotlightAudioReplay.addEventListener("click", () => {
+    startNarration({ restart: true });
   });
 
   spotlightAudio.addEventListener("play", () => setNarrationState(true));
@@ -626,6 +637,7 @@
   spotlightAudio.addEventListener("error", () => {
     if (!spotlightAudio.getAttribute("src")) return;
     spotlightAudioBtn.disabled = true;
+    spotlightAudioReplay.disabled = true;
     setNarrationState(false);
     spotlightAudioLabel.textContent = "音频不可用";
     spotlightAudioBtn.setAttribute("aria-label", "音频不可用");

@@ -2254,29 +2254,37 @@ body.spotlight-open {
   outline: none;
 }
 
-.spotlight-audio-btn {
+.spotlight-audio-controls {
   position: absolute;
   z-index: 7;
   top: 22px;
   right: 78px;
+  display: flex;
+  gap: 6px;
+}
+
+.spotlight-audio-btn,
+.spotlight-audio-replay {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   height: 44px;
-  padding: 0 15px;
+  padding: 0 14px;
   color: rgba(244, 231, 207, 0.9);
   border: 1px solid rgba(var(--accent-rgb), 0.4);
   border-radius: 999px;
   background: rgba(11, 9, 7, 0.72);
   font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
   cursor: pointer;
   transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
 }
 
 .spotlight-audio-btn:hover,
-.spotlight-audio-btn:focus-visible {
+.spotlight-audio-btn:focus-visible,
+.spotlight-audio-replay:hover,
+.spotlight-audio-replay:focus-visible {
   color: var(--ink);
   border-color: var(--accent);
   background: var(--accent);
@@ -2289,7 +2297,8 @@ body.spotlight-open {
   background: var(--accent);
 }
 
-.spotlight-audio-btn:disabled {
+.spotlight-audio-btn:disabled,
+.spotlight-audio-replay:disabled {
   color: rgba(207, 192, 164, 0.45);
   border-color: rgba(207, 192, 164, 0.2);
   background: rgba(11, 9, 7, 0.72);
@@ -2300,8 +2309,19 @@ body.spotlight-open {
   display: grid;
   width: 15px;
   place-items: center;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1;
+}
+
+.spotlight-audio-replay span:first-child {
+  color: var(--accent);
+  font-size: 15px;
+  line-height: 1;
+}
+
+.spotlight-audio-replay:hover span:first-child,
+.spotlight-audio-replay:focus-visible span:first-child {
+  color: var(--ink);
 }
 
 .spotlight-audio-progress {
@@ -2652,12 +2672,22 @@ body.is-revealed .sound-toggle {
     height: 40px;
   }
 
-  .spotlight-audio-btn {
+  .spotlight-audio-controls {
     top: 14px;
     right: 62px;
+    gap: 4px;
+  }
+
+  .spotlight-audio-btn,
+  .spotlight-audio-replay {
     height: 40px;
-    padding: 0 12px;
-    font-size: 10px;
+    padding: 0 10px;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+  }
+
+  .spotlight-audio-replay span:first-child {
+    font-size: 13px;
   }
 
   .sound-toggle {
