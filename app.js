@@ -13,6 +13,7 @@
       name: "秦非子",
       roman: "QIN FEIZI",
       image: "assets/portrait-feizi.webp",
+      audio: "assets/audio/feizi.mp3",
       era: "西周 · 周孝王时",
       years: "约前 890 年受封",
       epithet: "受封于秦",
@@ -44,6 +45,7 @@
       name: "秦襄公",
       roman: "QIN XIANG GONG",
       image: "assets/portrait-xiang.webp",
+      audio: "assets/audio/xiang.mp3",
       era: "春秋初 · 前 777—前 766",
       years: "护送平王东迁",
       epithet: "列为诸侯",
@@ -75,6 +77,7 @@
       name: "秦穆公",
       roman: "QIN MU GONG",
       image: "assets/portrait-mu.webp",
+      audio: "assets/audio/mu.mp3",
       era: "春秋 · 前 659—前 621",
       years: "吞并十二部族 · 拓地千里",
       epithet: "称霸西戎",
@@ -106,6 +109,7 @@
       name: "秦康公",
       roman: "QIN KANG GONG",
       image: "assets/portrait-kang.webp",
+      audio: "assets/audio/kang.mp3",
       era: "春秋 · 前 620—前 609",
       years: "令狐、河曲之战",
       epithet: "与晋争锋",
@@ -137,6 +141,7 @@
       name: "秦共公",
       roman: "QIN GONG GONG",
       image: "assets/portrait-gong.webp",
+      audio: "assets/audio/gong.mp3",
       era: "春秋 · 前 608—前 604",
       years: "在位很短 · 年数有异说",
       epithet: "守住秦国",
@@ -178,7 +183,7 @@
   const hoverMerit = document.getElementById("hover-detail-merit");
   const hoverBody = document.getElementById("hover-detail-body");
   const hoverMeta = document.getElementById("hover-detail-meta");
-  const hoverDetailCta = document.getElementById("hover-detail-cta");
+
 
   const spotlight = document.getElementById("spotlight");
   const spotlightImage = document.getElementById("spotlight-image");
@@ -190,8 +195,18 @@
   const spotlightMeta = document.getElementById("spotlight-meta");
   const spotlightClose = document.getElementById("spotlight-close");
   const spotlightScrim = document.getElementById("spotlight-scrim");
+  const spotlightAudio = document.getElementById("spotlight-audio");
+  const spotlightAudioBtn = document.getElementById("spotlight-audio-btn");
+  const spotlightAudioIcon = document.getElementById("spotlight-audio-icon");
+  const spotlightAudioLabel = document.getElementById("spotlight-audio-label");
+  const spotlightAudioBar = document.getElementById("spotlight-audio-bar");
+  const bgm = document.getElementById("bgm");
+  const soundToggle = document.getElementById("sound-toggle");
+  const soundToggleLabel = soundToggle.querySelector(".sound-toggle-label");
 
   let activeIndex = -1;
+  let bgmEnabled = true;
+  let narrationPlaying = false;
   let modalIndex = -1;
   let typingTimer = null;
   let typingToken = 0;
@@ -423,7 +438,70 @@
     }, 150);
   });
 
+  function updateAudioProgress() {
+    const duration = Number.isFinite(spotlightAudio.duration) ? spotlightAudio.duration : 0;
+    const progress = duration > 0 ? Math.min(spotlightAudio.currentTime / duration, 1) : 0;
+    spotlightAudioBar.style.transform = `scaleX(${progress})`;
+  }
+
+  function updateBgmVolume() {
+    if (!bgmEnabled) return;
+    bgm.volume = narrationPlaying ? 0.035 : 0.12;
+  }
+
+  function updateSoundToggle() {
+    const enabled = bgmEnabled;
+    soundToggle.classList.toggle("is-off", !enabled);
+    soundToggle.setAttribute("aria-pressed", String(enabled));
+    soundToggle.setAttribute("aria-label", enabled ? "关闭背景音乐" : "开启背景音乐");
+    soundToggleLabel.textContent = enabled ? "背景乐" : "静音";
+    soundToggle.classList.toggle("is-playing", enabled && !bgm.paused);
+  }
+
+  function tryPlayBgm() {
+    if (!bgmEnabled || !hasRevealed) return;
+    updateBgmVolume();
+    const attempt = bgm.play();
+    if (attempt && typeof attempt.catch === "function") {
+      attempt.catch(() => {
+        updateSoundToggle();
+      });
+    }
+  }
+
+  function setNarrationState(playing) {
+    narrationPlaying = playing;
+    spotlightAudioBtn.classList.toggle("is-playing", playing);
+    spotlightAudioBtn.setAttribute("aria-pressed", String(playing));
+    spotlightAudioIcon.textContent = playing ? "❚❚" : "▶";
+
+    if (playing) {
+      spotlightAudioLabel.textContent = "暂停";
+      spotlightAudioBtn.setAttribute("aria-label", "暂停朗读");
+    } else if (spotlightAudio.ended) {
+      spotlightAudioLabel.textContent = "重听";
+      spotlightAudioBtn.setAttribute("aria-label", "重新朗读");
+    } else if (spotlightAudio.currentTime > 0) {
+      spotlightAudioLabel.textContent = "继续";
+      spotlightAudioBtn.setAttribute("aria-label", "继续朗读");
+    } else {
+      spotlightAudioLabel.textContent = "朗读";
+      spotlightAudioBtn.setAttribute("aria-label", "朗读当前人物档案");
+    }
+
+    updateBgmVolume();
+  }
+
+  function stopNarration() {
+    spotlightAudio.pause();
+    spotlightAudio.currentTime = 0;
+    narrationPlaying = false;
+    spotlightAudioBar.style.transform = "scaleX(0)";
+    setNarrationState(false);
+  }
+
   function setSpotlightContent(ruler) {
+    stopNarration();
     spotlight.style.setProperty("--accent", ruler.accent);
     spotlight.style.setProperty("--accent-rgb", ruler.accentRgb);
     spotlightName.textContent = ruler.name;
@@ -433,6 +511,10 @@
     spotlightMeta.textContent = ruler.meta;
     spotlightDescription.textContent = [ruler.role, ...ruler.story].join(" ");
     spotlightImage.src = ruler.image;
+    spotlightAudioBtn.disabled = false;
+    spotlightAudio.src = ruler.audio;
+    spotlightAudio.load();
+    updateAudioProgress();
   }
 
   function openSpotlight(index) {
@@ -454,6 +536,7 @@
     spotlight.inert = false;
     spotlight.removeAttribute("inert");
     spotlight.setAttribute("aria-hidden", "false");
+    tryPlayBgm();
 
     void spotlight.offsetWidth;
     window.requestAnimationFrame(() => {
@@ -480,6 +563,7 @@
   function closeSpotlight() {
     if (!spotlight.classList.contains("is-open")) return;
 
+    stopNarration();
     const closingIndex = modalIndex;
     spotlight.classList.remove("is-open");
     spotlight.setAttribute("aria-hidden", "true");
@@ -512,12 +596,64 @@
     });
   });
 
-  hoverDetailCta.addEventListener("click", () => {
-    if (activeIndex >= 0) openSpotlight(activeIndex);
-  });
 
   spotlightClose.addEventListener("click", closeSpotlight);
   spotlightScrim.addEventListener("click", closeSpotlight);
+
+  spotlightAudioBtn.addEventListener("click", () => {
+    if (spotlightAudio.paused) {
+      if (spotlightAudio.ended) spotlightAudio.currentTime = 0;
+      tryPlayBgm();
+      const attempt = spotlightAudio.play();
+      if (attempt && typeof attempt.catch === "function") {
+        attempt.catch(() => {
+          spotlightAudioLabel.textContent = "音频不可用";
+          spotlightAudioBtn.setAttribute("aria-label", "音频不可用");
+        });
+      }
+    } else {
+      spotlightAudio.pause();
+    }
+  });
+
+  spotlightAudio.addEventListener("play", () => setNarrationState(true));
+  spotlightAudio.addEventListener("pause", () => setNarrationState(false));
+  spotlightAudio.addEventListener("timeupdate", updateAudioProgress);
+  spotlightAudio.addEventListener("ended", () => {
+    setNarrationState(false);
+    spotlightAudioBar.style.transform = "scaleX(1)";
+  });
+  spotlightAudio.addEventListener("error", () => {
+    if (!spotlightAudio.getAttribute("src")) return;
+    spotlightAudioBtn.disabled = true;
+    setNarrationState(false);
+    spotlightAudioLabel.textContent = "音频不可用";
+    spotlightAudioBtn.setAttribute("aria-label", "音频不可用");
+  });
+
+  bgm.volume = 0.12;
+  bgm.addEventListener("play", updateSoundToggle);
+  bgm.addEventListener("pause", updateSoundToggle);
+
+  soundToggle.addEventListener("click", () => {
+    if (bgmEnabled && !bgm.paused) {
+      bgmEnabled = false;
+      bgm.pause();
+    } else {
+      bgmEnabled = true;
+      tryPlayBgm();
+    }
+    updateSoundToggle();
+  });
+
+  document.addEventListener(
+    "pointerdown",
+    (event) => {
+      if (event.target.closest?.("#sound-toggle")) return;
+      if (hasRevealed) tryPlayBgm();
+    },
+    { passive: true }
+  );
 
   spotlight.addEventListener("keydown", (event) => {
     if (event.key !== "Tab") return;
@@ -600,6 +736,7 @@
     main.setAttribute("aria-hidden", "false");
     prologue.setAttribute("aria-hidden", "true");
     prologue.inert = true;
+    tryPlayBgm();
 
     window.dispatchEvent(new CustomEvent("qin:ending:revealed"));
 
@@ -613,6 +750,10 @@
     hasRevealed = false;
     activeIndex = -1;
     visited.clear();
+    stopNarration();
+    bgm.pause();
+    bgm.currentTime = 0;
+    updateSoundToggle();
     body.classList.remove("is-revealed", "all-visited");
     main.setAttribute("aria-hidden", "true");
     prologue.removeAttribute("aria-hidden");

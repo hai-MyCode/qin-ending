@@ -85,6 +85,11 @@
         <span aria-hidden="true"></span>
       </button>
 
+      <button class="spotlight-audio-btn" id="spotlight-audio-btn" type="button" aria-label="朗读当前人物档案" aria-pressed="false">
+        <span class="spotlight-audio-icon" id="spotlight-audio-icon" aria-hidden="true">▶</span>
+        <span class="spotlight-audio-label" id="spotlight-audio-label">朗读</span>
+      </button>
+
       <div class="spotlight-figure" aria-hidden="true">
         <img id="spotlight-image" src="" alt="" width="832" height="1248" draggable="false" decoding="async" />
       </div>
@@ -98,6 +103,10 @@
         <div class="spotlight-story" id="spotlight-story" aria-hidden="true"></div>
         <p class="sr-only" id="spotlight-description"></p>
         <p class="spotlight-meta" id="spotlight-meta"></p>
+      </div>
+
+      <div class="spotlight-audio-progress" id="spotlight-audio-progress" aria-hidden="true">
+        <span id="spotlight-audio-bar"></span>
       </div>
     </section>
   </div>
@@ -113,9 +122,6 @@
         <p class="hover-detail-lead">我做的是——</p>
         <p class="hover-detail-merit" id="hover-detail-merit"></p>
         <p class="hover-detail-body" id="hover-detail-body"></p>
-        <button class="hover-detail-cta" id="hover-detail-cta" type="button">
-          点击查看完整档案 <span aria-hidden="true">→</span>
-        </button>
       </div>
       <div class="hover-detail-end">
         <span class="hover-detail-meta" id="hover-detail-meta"></span>
@@ -123,6 +129,14 @@
       </div>
     </div>
   </aside>
+
+  <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="true" aria-label="关闭背景音乐">
+    <span class="sound-toggle-icon" aria-hidden="true">♪</span>
+    <span class="sound-toggle-label">背景乐</span>
+  </button>
+
+  <audio id="bgm" src="assets/audio/bgm.mp3" loop preload="none"></audio>
+  <audio id="spotlight-audio" preload="none"></audio>
 
   <div class="sr-only" id="live-region" aria-live="polite" aria-atomic="true"></div>
 
