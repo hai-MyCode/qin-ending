@@ -232,7 +232,7 @@
      ------------------------------------------------------- */
 
   function cardMarkup(r, index) {
-    const label = `${r.name}，${r.era}。点击或按回车查看完整人物档案。`;
+    const label = `${r.name}，${r.era}。点击或按回车查看完整人物档案并自动朗读。`;
     return `
       <button
         class="ruler"
@@ -241,6 +241,7 @@
         aria-label="${label}"
         aria-haspopup="dialog"
         aria-controls="spotlight"
+        title="点击查看人物档案并自动朗读"
         style="--accent:${r.accent};--accent-rgb:${r.accentRgb};--i:${index}"
       >
         <span class="ruler-inner">
@@ -251,9 +252,9 @@
           </span>
 
           <span class="view-cue" aria-hidden="true">
-            <span class="view-cue-plus">+</span>
-            <span class="view-cue-desktop">点击查看</span>
-            <span class="view-cue-touch">轻触查看</span>
+            <span class="view-cue-plus">♪</span>
+            <span class="view-cue-desktop">点击朗读</span>
+            <span class="view-cue-touch">轻触朗读</span>
           </span>
 
           <span class="spine" aria-hidden="true">
